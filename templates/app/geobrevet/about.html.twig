@@ -1,0 +1,43 @@
+{# templates/app/geobrevet/about.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+Application GéoBrevet | {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-box2 icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        Application GéoBrevet
+        <div class="page-title-subheading">
+            Blabla
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="mb-3 card">
+            <div class="card-header-tab card-header-tab-animation card-header">
+                <div class="card-header-title">
+                    GéoBrevet &mdash; L'histoire-géographie au Brevet
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    Blabla avec des images
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

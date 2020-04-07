@@ -1,0 +1,19 @@
+div.form-group ul {
+    padding-left: 0px;
+}
+
+div.form-group ul li {
+    list-style: none;
+    color: #a94442;
+}
+
+div.form-group ul li::before {
+    list-style: none;
+    color: #a94442;
+    content: '❗ ';
+}
+
+.required::after{
+    content: " *";
+    color: red;
+}

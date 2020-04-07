@@ -1,0 +1,13 @@
+[
+    {
+        "number": "0.1.0",
+        "build": 5,
+        "date": "Apr 6 2020",
+        "items": [
+            {
+                "type": "NEW",
+                "content": "Version initiale"
+            }
+        ]
+    }
+]
