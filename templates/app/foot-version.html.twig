@@ -1,0 +1,5 @@
+{% if lastVersion is not null %}
+<a href="{{ path('version') }}">Version {{ lastVersion.number }}</a><br><small>Build {{ lastVersion.build }} - {{ lastVersion.date }}</small>
+{% else %}
+Version << undefined>>
+{% endif %}

@@ -25,7 +25,7 @@ class MainController extends AbstractController {
     /**
     * @Route("/about", name="about")
     */
-    public function about(Request $request){
+    public function about(){
         
         return $this->render('app/about.html.twig');
     }
@@ -33,9 +33,18 @@ class MainController extends AbstractController {
     /**
     * @Route("/apps/geobrevet", name="geobrevet")
     */
-    public function geobrevet(Request $request){
+    public function geobrevet(){
         
         return $this->render('app/geobrevet/about.html.twig');
+    }
+
+    /**
+     * @Route("/version", name="version")
+     */
+    public function version(){
+        return $this->render('app/version.html.twig', array(
+            'listVersions' => $this->getVersions()
+        ));
     }
 
     public function getLastVersion(){
@@ -44,7 +53,7 @@ class MainController extends AbstractController {
             $json = file_get_contents($jsonFile, false);
             $jsonDatas = json_decode($json, true);
 
-            return $this->render('app/version.html.twig', array(
+            return $this->render('app/foot-version.html.twig', array(
                 'lastVersion' => $jsonDatas[0]
             ));
         }
@@ -63,5 +72,12 @@ class MainController extends AbstractController {
             return $jsonDatas;
         }
         return null;
+    }
+
+    /**
+    * @Route("/test", name="test")
+    */
+    public function test(Request $request){
+        return $this->render('email/new_account_bill.html.twig', array('user' => $this->getUser()));
     }
 }

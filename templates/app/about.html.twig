@@ -24,19 +24,19 @@
 {% block pageContent %}
 <ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
     <li class="nav-item">
-        <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#about">
+        <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#aboutTab">
             <span>À propos de LearnApp</span>
         </a>
     </li>
     <li class="nav-item">
-        <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#schools">
+        <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#schoolsTab">
             <span>Pour les établissements scolaires</span>
         </a>
     </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane tabs-animation fade show active" id="about" role="tabpanel">
+    <div class="tab-pane tabs-animation fade show active" id="aboutTab" role="tabpanel">
         <div class="row">
             <div class="col-md-12">
                 <div class="mb-3 card">
@@ -70,7 +70,7 @@
                                 <li>Deux apps incluses</li>
                                 <li>Support e-mail et FAQ</li>
                             </ul>
-                            <button type="button" class="btn btn-lg btn-block btn-outline-primary">Créez votre compte</button>
+                            <a href="{{ path('register') }}" class="btn btn-lg btn-block btn-outline-primary">Créez votre compte</a>
                         </div>
                     </div>
                     <div class="card mb-4 box-shadow card-shadow-info border border-info">
@@ -84,7 +84,7 @@
                                 <li>Deux apps supplémentaires</li>
                                 <li>Support e-mail prioritaire</li>
                             </ul>
-                            <button type="button" class="btn btn-lg btn-block btn-info">Démarrez avec cette offre</button>
+                            <a href="{{ path('register') }}" class="btn btn-lg btn-block btn-info">Démarrez avec cette offre</a>
                         </div>
                     </div>
                     <div class="card mb-4 box-shadow">
@@ -98,7 +98,7 @@
                                 <li>Applications illimitées</li>
                                 <li>Ressources premium</li>
                             </ul>
-                            <button type="button" class="btn btn-lg btn-block btn-primary">Démarrez avec cette offre</button>
+                            <a href="{{ path('register') }}" class="btn btn-lg btn-block btn-primary">Démarrez avec cette offre</a>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
         </div>
     </div>
 
-    <div class="tab-pane tabs-animation fade" id="schools" role="tabpanel">
+    <div class="tab-pane tabs-animation fade" id="schoolsTab" role="tabpanel">
         <div class="row">
             <div class="col-md-12">
                 <div class="mb-3 card">

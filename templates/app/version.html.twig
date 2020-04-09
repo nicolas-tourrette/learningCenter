@@ -1,5 +1,81 @@
-{% if lastVersion is not null %}
-<a href="javascript:void(0);">Version {{ lastVersion.number }}</a><br><small>Build {{ lastVersion.build }} - {{ lastVersion.date }}</small>
-{% else %}
-Version << undefined>>
-{% endif %}
+{# templates/app/about.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+Versions | {{ parent() }}
+{% endblock %}
+
+{% block css %}
+<link href="{{ asset('assets/css/version.css') }}" rel="stylesheet">
+<script src="{{ asset('assets/scripts/encryptm.js') }}"></script>
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-plugin icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        Versions
+        <div class="page-title-subheading">
+            Voici l'historique des versions de la plateforme LearnApp. Vous trouverez l'ensemble des modifications apportées depuis le début de cette plateforme.<br>Si un bug devait être signalé, merci de le faire sur la page GitHub de notre plateforme en vous rendant <a href="https://github.com/nicolas-tourrette/learningCenter/issues" target="_blank"><i class="fab fa-github"></i> ici</a>. Si vous ne possédez pas d'un tel compte, envoyez un mail au support sur <script>cryptm("support.learnapp", "nicolas-t", "ovh");</script>.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="mb-3 card">
+            <div class="card-header-tab card-header-tab-animation card-header">
+                <div class="card-header-title">
+                    Versions de LearnApp
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    {% if listVersions is not null %}
+                    {% set compteur = 0 %}
+                    {% for version in listVersions %}
+                    <div class="version{% if compteur > 4 %} masked{% endif %}">
+                        <h2>
+                            <div id="number">{{ version.number }}</div>{{ version.date }}
+                        </h2>
+                        <p id="item">
+                            <ul>
+                                {% for item in version.items %}
+                                <li>
+                                    <div class="item item-{{ item.type|lower }}">{{ item.type }}</div>{{ item.content }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </p>
+                    </div>
+                    {% set compteur = compteur + 1 %}
+                    {% endfor %}
+                    {% if compteur > 5 %}
+                    <br>
+                    <button id="displaymore" onclick="displayMoreVersion();" class="btn btn-primary"><i class="fas fa-chevron-down"></i>
+                        &nbsp; Afficher plus</button>
+                    <button id="displayless" onclick="displayLessVersion();" class="btn btn-primary masked"><i
+                            class="fas fa-chevron-up"></i> &nbsp; Afficher moins</button>
+                    {% endif %}
+                    {% else %}
+                    Pas d'historique disponible.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('assets/scripts/version.js') }}"></script>
+{% endblock %}

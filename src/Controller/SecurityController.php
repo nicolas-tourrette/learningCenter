@@ -77,19 +77,21 @@ class SecurityController extends AbstractController
 					$user,
 					$user->getPassword()
                 ));
-                dump($form->getData());
-				//$user->setRoles(array());
+
+                if($user->getRoles() === []){
+                    $user->setRoles(array("ROLE_USER"));
+                }
 
                 $em->persist($user);
 
                 /*$log = new Log();
                 $log->setLevel("success");
                 $log->setMessage("Création du compte de l'utilisateur ".$user->getUsername()." effectuée avec succès.");
-                $em->persist($log);
+                $em->persist($log);*/
 
-				$em->flush();*/
+				$em->flush();
 
-				//return $this->redirectToRoute('login', array('last_username' => $user->getUsername()));
+				return $this->redirectToRoute('login', array('last_username' => $user->getUsername()));
 			}
 		}
 

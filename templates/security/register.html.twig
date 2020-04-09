@@ -39,24 +39,9 @@ Créer son compte | {{ parent() }}
                 <p>
                     Veuillez compléter le formulaire suivant afin de créer votre compte LearnApp.
                 </p>
-                <form class="needs-validation" {# novalidate=""  #} action="{{ path('register') }}" method="post">
+                <form class="needs-validation" action="{{ path('register') }}" method="post">
                     <div class="form-group">
                         {{ form_errors(form) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.username) }}
-                        {{ form_errors(form.username) }}
-                        {{ form_widget(form.username) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.password.first) }}
-                        {{ form_errors(form.password.first) }}
-                        {{ form_widget(form.password.first) }}
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.password.second) }}
-                        {{ form_errors(form.password.second) }}
-                        {{ form_widget(form.password.second) }}
                     </div>
                     <div class="form-group">
                         {{ form_label(form.name) }}
@@ -64,14 +49,38 @@ Créer son compte | {{ parent() }}
                         {{ form_widget(form.name) }}
                     </div>
                     <div class="form-group">
-                        {{ form_label(form.birthday) }}
-                        {{ form_errors(form.birthday) }}
-                        {{ form_widget(form.birthday) }}
-                    </div>
-                    <div class="form-group">
                         {{ form_label(form.email) }}
                         {{ form_errors(form.email) }}
                         {{ form_widget(form.email) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.username) }}
+                        {{ form_errors(form.username) }}
+                        {{ form_widget(form.username) }}
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                {{ form_label(form.password.first) }}
+                                {{ form_errors(form.password.first) }}
+                                {{ form_widget(form.password.first) }}
+                                <small id="passwordHelpBlock" class="form-text text-muted">
+                                    Votre mot de passe doit être d'une longueur minimale de 8 caractères et être varié.
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                {{ form_label(form.password.second) }}
+                                {{ form_errors(form.password.second) }}
+                                {{ form_widget(form.password.second) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.birthday) }}
+                        {{ form_errors(form.birthday) }}
+                        {{ form_widget(form.birthday) }}
                     </div>
                     <div class="form-group">
                         {{ form_label(form.school) }}
@@ -84,11 +93,9 @@ Créer son compte | {{ parent() }}
                         {{ form_widget(form.profilImage) }}
                     </div>
                     <div class="form-group">
-                        <select name="plan" id="plan" class="custom-select">
-                            <option value="ROLE_USER">LearnApp Classic</option>
-                            <option value="ROLE_USER-PLUS">LearnApp Classic+ (5 €/mois)</option>
-                            <option value="ROLE_USER-PREMIUM">LearnApp Premium (10 €/mois)</option>
-                        </select>
+                        {{ form_label(form.roles) }}
+                        {{ form_errors(form.roles) }}
+                        {{ form_widget(form.roles) }}
                     </div>
                     <div class="form-group">
                         {{ form_label(form.partnerSchool) }}

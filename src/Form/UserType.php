@@ -36,10 +36,10 @@ class UserType extends AbstractType
                     'type' => PasswordType::class,
                     'label' => "Mot de passe",
                     'required' => true,
-                    'options' => ['attr' => ['class' => 'password-field']],
+                    'options' => ['attr' => ['class' => "password-field"]],
                     'invalid_message' => 'Les  mots de passe doivent correspondre.',
-                    'first_options'  => ['label' => 'Mot de passe', 'attr' => [ 'placeholder' => "Mot de passe", 'class' => "form-control" ]],
-                    'second_options' => ['label' => 'Confirmer le mot de passe', 'attr' => ['placeholder' => "Confirmation du mot de passe", 'class' => "form-control" ]],
+                    'first_options'  => ['label' => 'Mot de passe', 'attr' => [ 'placeholder' => "Mot de passe", 'class' => "form-control", 'minlength' => "8" ]],
+                    'second_options' => ['label' => 'Confirmer le mot de passe', 'attr' => ['placeholder' => "Confirmation du mot de passe", 'class' => "form-control", 'minlength' => "8" ]],
                     'attr' => [ 'class' => "form-control" ]
                 )
             )
@@ -81,7 +81,8 @@ class UserType extends AbstractType
                 array(
                     'label' => "URL de photo de profil",
                     'required' => false,
-                    'attr' => ["placeholder" => "https://facebook.com/myname/photos/profile", 'class' => "form-control"]
+                    'attr' => ["placeholder" => "https://facebook.com/myname/photos/profile", 'class' => "form-control"],
+                    'empty_data' => "assets/images/avatars/user.svg"
                 )
             )
             ->add('partnerSchool',
@@ -90,6 +91,21 @@ class UserType extends AbstractType
                     'label' => "Code établissement partenaire (RNE)",
                     'required' => false,
                     'attr' => ["placeholder" => "0211234C", 'class' => "form-control", 'maxlength' => "8"]
+                )
+            )
+            ->add('roles',
+                ChoiceType::class,
+                array(
+                    'label' => "Souscription au plan",
+                    'required' => true,
+                    'attr' => ['class' => "custom-select"],
+                    'multiple'=> true,
+                    'expanded'=> false,
+                    'choices' => array(
+                        'LearnApp Classic (gratuit)' => "ROLE_USER",
+                        'LearnApp Classic+ (5 €/mois)' => "ROLE_USER-PLUS",
+                        'LearnApp Premium (10 €/mois)' => "ROLE_USER-PREMIUM",
+                    )
                 )
             )
             ->add('submit',

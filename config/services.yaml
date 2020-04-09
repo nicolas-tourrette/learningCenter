@@ -25,3 +25,15 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    app.email.application_mailer:
+        class: App\Service\ApplicationMailer
+        arguments:
+            - "@mailer"
+    
+    app.service.application_creation:
+        class: App\Service\NewUserListener
+        arguments:
+            - "@app.email.application_mailer"
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

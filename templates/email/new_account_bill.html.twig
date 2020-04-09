@@ -1,0 +1,146 @@
+{# email/new_account-bill.html.twig #}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Plateforme LearnApp - Création de votre compte</title>
+    <link href="{{ absolute_url(asset('assets/css/main.css')) }}" rel="stylesheet">
+    <style>
+        body {
+            background: #d3d3d3;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+
+<body>
+</body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="row p-5">
+                            <div class="col-md-6">
+                                <img src="{{ absolute_url(asset('assets/images/favicon.png')) }}" height="200px" class="rounded">
+                            </div>
+
+                            <div class="col-md-6">
+                                <p class="font-weight-bold mb-1 text-right">Commande n°{{ user.id }}</p>
+                                <p class="text-muted text-right">Le {{ "now"|date("d/m/Y" )}}</p>
+                                <p class="h3 font-weight-bold mt-5 text-right">Facturation</p>
+                            </div>
+                        </div>
+
+                        <hr class="my-5">
+
+                        <div class="row pb-5 p-5">
+                            <div class="col-md-6">
+                                <p class="font-weight-bold mb-4">Informations client</p>
+                                <p class="mb-0">{{ user.name }}</p>
+                                <p class="text-muted mb-3">{{ user.school }}</p>
+                                {% if user.partnerSchool is not null %}
+                                    <p class="text-muted mb-3">Code d'établissement partenaire : {{ user.partnerSchool }}</p>
+                                {% endif %}
+                                <p>{{ user.email }}</p>
+                            </div>
+
+                            <div class="col-md-6 text-right">
+                                <p class="font-weight-bold mb-4">Possibilité de paiement</p>
+                                <p class="mb-1"><span class="text-muted">Virement &mdash; IBAN : </span> FR76 1100 6210 3152 1533 1801 843 <span class="text-muted">BIC : </span> AGRIFRPP810</p>
+                                <p class="mb-1"><span class="text-muted">Chèque : </span> TOURRETTE Nicolas<br>9, Route de Ruffey<br>21490 VAROIS-ET-CHAIGNOT</p>
+                            </div>
+                        </div>
+
+                        <div class="row p-5">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-0 text-uppercase small font-weight-bold">Licence</th>
+                                            <th class="border-0 text-uppercase small font-weight-bold">Durée</th>
+                                            <th class="border-0 text-uppercase small font-weight-bold">Coût unitaire</th>
+                                            <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                            <th class="border-0 text-uppercase small font-weight-bold">À régler avant</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{% if "ROLE_USER-PLUS" in user.roles %}LearnApp Classic+{% elseif "ROLE_USER-PREMIUM" in user.roles %}LearnApp Premium{% endif %}</td>
+                                            <td>1 mois</td>
+                                            <td>{% if "ROLE_USER-PLUS" in user.roles %}5, 00 €{% elseif "ROLE_USER-PREMIUM" in user.roles %}10,00 €{% endif %}</td>
+                                            <td>{% if "ROLE_USER-PLUS" in user.roles %}60, 00 €{% elseif "ROLE_USER-PREMIUM" in user.roles %}120,00 €{% endif %}</td>
+                                            <td>{{ "now"|date_modify("+2 week")|date("d/m/Y") }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="mt-1 text-warning">Le paiement doit s'effectuer mensuellement pour un paiement par virement ou annuellement
+                                    par chèque.<br>Après la date d'échéance, votre compte sera désactivé.</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row-reverse bg-dark text-white p-4">
+                            <div class="py-3 px-5 text-right">
+                                <div class="mb-2">Total</div>
+                                <div class="h2 font-weight-light">
+                                    {% if "ROLE_USER-PLUS" in user.roles %}60,00 €{% elseif "ROLE_USER-PREMIUM" in user.roles %}120,00 €{% endif %}
+                                </div>
+                            </div>
+                            <div class="py-3 px-5 text-right">
+                                <div class="mb-2">Paiement Paypal</div>
+                                <div class="font-weight-light">
+                                    {% if "ROLE_USER-PLUS" in user.roles %}
+                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                        <input type="hidden" name="cmd" value="_s-xclick">
+                                        <input type="hidden" name="hosted_button_id" value="ZFBZR4B72CVEW">
+                                        <table>
+                                            <tr>
+                                                <td><input type="hidden" name="on0" value=""></td>
+                                            </tr>
+                                            <tr>
+                                                <td><select name="os0">
+                                                        <option value="Mensuel">Mensuel : €5,00 EUR - mensuel</option>
+                                                        <option value="Annuel">Annuel : €60,00 EUR - annuel</option>
+                                                    </select> </td>
+                                            </tr>
+                                        </table>
+                                        <input type="hidden" name="currency_code" value="EUR">
+                                        <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_subscribeCC_LG.gif" border="0"
+                                            name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+                                        <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+                                    </form>
+                                    {% elseif "ROLE_USER-PREMIUM" in user.roles %}
+                                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                                        <input type="hidden" name="cmd" value="_s-xclick">
+                                        <input type="hidden" name="hosted_button_id" value="62TZ7PHXVB96L">
+                                        <table>
+                                            <tr>
+                                                <td><input type="hidden" name="on0" value=""></td>
+                                            </tr>
+                                            <tr>
+                                                <td><select name="os0">
+                                                        <option value="Mensuel">Mensuel : €10,00 EUR - mensuel</option>
+                                                        <option value="Annuel">Annuel : €120,00 EUR - annuel</option>
+                                                    </select> </td>
+                                            </tr>
+                                        </table>
+                                        <input type="hidden" name="currency_code" value="EUR">
+                                        <input type="image" src="https://www.paypalobjects.com/fr_FR/FR/i/btn/btn_subscribeCC_LG.gif" border="0"
+                                            name="submit" alt="PayPal, le réflexe sécurité pour payer en ligne">
+                                        <img alt="" border="0" src="https://www.paypalobjects.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
+                                    </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3 text-center small">&copy; 2020 Nicolas TOURRETTE. Tous droits réservés.<br>Plateforme LearnApp &mdash; Apprentissage en ligne<br><img src="{{ absolute_url(asset('assets/images/logo-white.png')) }}" class="text-center mt-3" height="100px"></div>
+    </div>
+</html>

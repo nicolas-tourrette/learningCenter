@@ -14,9 +14,13 @@ if (maPage == "" || maPage == "#") {
 }
 else if (maPage != "" || maPage != "#") {
     if(pathLength > 5){
-        idForItem = "my-"
+        idForItem = "my-";
     }
     idForItem += CheminRepertoire[pathLength - 1];
+}
+
+if (maPage == "version"){
+    idForItem = "about";
 }
 
 if (idForItem.indexOf("#") > 0) {

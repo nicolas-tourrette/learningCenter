@@ -26,6 +26,7 @@
     -->
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cantora+One" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
     <link href="{{ asset('assets/images/favicon.png') }}" rel="icon">
     {% block css %}
     {% endblock %}
@@ -108,6 +109,7 @@
                                                 <h6 tabindex="-1" class="dropdown-header">Mon compte</h6>
                                                 <button type="button" tabindex="0" class="dropdown-item">Mon compte</button>
                                                 <button type="button" tabindex="0" class="dropdown-item">Paramètres</button>
+                                                <a href="{{ path('logout') }}" class="dropdown-item">Se déconnecter</a>
                                                 <div tabindex="-1" class="dropdown-divider"></div>
                                                 <h6 tabindex="-1" class="dropdown-header">Mes applications</h6>
                                                 <button type="button" tabindex="0" class="dropdown-item">Consultation</button>
@@ -131,7 +133,7 @@
                                             {{ app.user.name }}
                                         </div>
                                         <div class="widget-subheading">
-                                            {{ app.user.name }}
+                                            {{ app.user.school }}
                                         </div>
                                     {% else %}
                                         <div class="widget-heading">
@@ -225,7 +227,7 @@
                                     </li>
                                 {% else %}
                                     <li>
-                                        <a href="{{ path('login') }}">
+                                        <a href="{{ path('login') }}" id="login">
                                             <i class="metismenu-icon pe-7s-power"></i>
                                             Se connecter
                                         </a>
@@ -491,7 +493,7 @@
                                     <div class="widget-content-wrapper text-white">
                                         <div class="widget-content-left">
                                             <div class="widget-heading">Utilisateurs de la plateforme</div>
-                                            <div class="widget-subheading"><a href="#" class="text-white">Créez votre compte</a> dès maintenant !</div>
+                                            <div class="widget-subheading"><a href="{{ path('register') }}" class="text-white">Créez votre compte</a> dès maintenant !</div>
                                         </div>
                                         <div class="widget-content-right">
                                             <div class="widget-numbers text-white"><span>1</span></div>
@@ -572,7 +574,7 @@
                                             Vous pouvez souscrire à une offre pour les établissements scolaires et ainsi proposer à vos élèves, quel que soit le niveau, une application dédiée. Vous avez le choix du contenu, c'est votre part. Nous traduisons votre contenu en application utilisable par vos élèves.
                                         </p>
                                         <p>
-                                            Pour plus de renseignements, consultez la page <a href="#" class="btn btn-sm btn-primary">des établissements scolaires</a>.
+                                            Pour plus de renseignements, consultez la page <a href="{{ path('about') }}" class="btn btn-sm btn-primary">des établissements scolaires</a>.
                                         </p>
                                     </div>
                                 </div>
