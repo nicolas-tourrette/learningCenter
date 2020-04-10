@@ -16,7 +16,6 @@ class NewUserListener
 
     public function __construct(ApplicationMailer $applicationMailer)
     {
-
         $this->applicationMailer = $applicationMailer;
     }
 
@@ -31,7 +30,5 @@ class NewUserListener
         else{
             return;
         }
-
-        
     }
 }

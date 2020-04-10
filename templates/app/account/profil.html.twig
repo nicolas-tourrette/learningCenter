@@ -1,0 +1,162 @@
+{# templates/app/account/profil.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+Mon compte | {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-user icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        Mon compte
+        <div class="page-title-subheading">
+            Consultez et gérez votre compte LearnApp depuis cette partie. Vous avez accès ici à toutes les données vous concernant et vous êtes libre de les modifier. Toute modification des données engage votre responsabilité sur leur exactitude.<br>
+            Dernière connexion : {{ app.user.lastLogin|date("d/m/Y H:i:s") }} par @{{ app.user.lastIP }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                <i class="header-icon pe-7s-user"> </i>
+                Mon compte
+                <div class="btn-actions-pane-right actions-icon-btn">
+                    <a class="btn-icon btn-icon-only btn btn-link" href="{{ path('update') }}"><i class="pe-7s-config btn-icon-wrapper"></i></a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="scroll-area-sm">
+                    <div class="scrollbar-container ps--active-y ps">
+                        <div class="media">
+                            <img src="{{ asset(app.user.profilimage) }}" width="100" class="mr-3 rounded-circle" alt="{{ app.user.name }}">
+                            <div class="media-body">
+                                <h5 class="mt-0">{{ app.user.name }}</h5>
+                                <p class="text-muted">{{ app.user.email }}</p>
+                                <p class="text-muted">{{ app.user.school }}</p>
+                            </div>
+                        </div>
+                        <p class="mt-3 text-muted">Date de naissance : {{ app.user.birthday|date("d/m/Y") }}</p>
+                        {% if app.user.partnerSchool is not null %}
+                        <p class="text-muted">
+                            <span class="card-title">Code RNE de l'établissement partenaire d'inscription</span><br>{{ app.user.partnerSchool }}
+                        </p>
+                        {% endif %}
+                        <p>
+                            <span class="card-title">Abonnement</span>
+                            {% if "ROLE_USER-PLUS" in app.user.roles %}
+                                <ul class="list-group"><li class="list-group-item-info list-group-item">LearnApp Classic+</li></ul> 
+                            {% elseif "ROLE_USER-PREMIUM" in app.user.roles %}
+                                <ul class="list-group"><li class="list-group-item-warning list-group-item">LearnApp Premium{% if app.user.paiementStatus == 0 %} (essai){% endif %}</li></ul>
+                            {% else %}
+                                <ul class="list-group"><li class="list-group-item-secondary list-group-item">LearnApp Classic{% if app.user.paiementStatus == 0 %} (essai){% endif %}</li></ul>
+                            {% endif %}
+                        </p>
+                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                        </div>
+                        <div class="ps__rail-y" style="top: 0px; height: 200px; right: 0px;">
+                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 55px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# <div class="d-block text-right card-footer">
+                <button class="mr-2 btn btn-link btn-sm">Cancel</button>
+                <button class="btn btn-success btn-lg">Save</button>
+            </div> #}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                <i class="header-icon pe-7s-box2"> </i>
+                Mes applications
+                <div class="btn-actions-pane-right actions-icon-btn">
+                    <a class="btn-icon btn-icon-only btn btn-link" href="#"><i class="pe-7s-config btn-icon-wrapper"></i></a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="scroll-area-sm">
+                    <div class="scrollbar-container ps--active-y ps">
+                        <p>
+                            <ul class="list-group list-group-flush">
+                                {% for appli in app.user.apps %}
+                                    <li class="list-group-item">{{ appli }}</li>
+                                {% endfor %}
+                            </ul>
+                        </p>
+                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                        </div>
+                        <div class="ps__rail-y" style="top: 0px; height: 200px; right: 0px;">
+                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 55px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# <div class="d-block text-right card-footer">
+                <button class="mr-2 btn btn-link btn-sm">Cancel</button>
+                <button class="btn btn-success btn-lg">Save</button>
+            </div> #}
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                <i class="header-icon pe-7s-credit"> </i>
+                Mes paiements
+                <div class="btn-actions-pane-right actions-icon-btn">
+                    <a class="btn-icon btn-icon-only btn btn-link" href="#"><i class="pe-7s-info btn-icon-wrapper"></i></a>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="scroll-area-sm">
+                    <div class="scrollbar-container ps--active-y ps">
+                        <p>
+                            État du paiement :{% if app.user.paiementStatus == 1 %}<span class="ml-2 badge badge-pill badge-success">VALIDÉ</span><br>{% else %}<span class="ml-2 badge badge-pill badge-danger">EN ATTENTE DE PAIEMENT</span>{% endif %}
+                            {% if app.user.paiementStatus == 1 %}
+                            Date du paiement : {{ app.user.paiementDate|date("d/m/Y") }}
+                            {% endif %}
+                        </p>
+                        {% if app.user.paiementType != "free" %}
+                        <p class="font-weight-bold">
+                            Prochaine échéance :
+                            {% if app.user.paiementType == "month" %}
+                                {{ app.user.paiementDate|date_modify("+1 month")|date("d/m/Y") }}
+                                {% include 'app/account/avertissement_echeance.html.twig' %}
+                            {% elseif app.user.paiementType == "year" %}
+                                {{ app.user.paiementDate|date_modify("+1 year")|date("d/m/Y") }}
+                                {% include 'app/account/avertissement_echeance.html.twig' %}
+                            {% else %}
+                                {{ app.user.updated|date_modify("+2 week")|date("d/m/Y") }}
+                            {% endif %}
+                        </p>
+                        {% endif %}
+                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                            <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                        </div>
+                        <div class="ps__rail-y" style="top: 0px; height: 200px; right: 0px;">
+                            <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 55px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# <div class="d-block text-right card-footer">
+                <button class="mr-2 btn btn-link btn-sm">Cancel</button>
+                <button class="btn btn-success btn-lg">Save</button>
+            </div> #}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

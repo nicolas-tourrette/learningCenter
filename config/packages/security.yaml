@@ -12,7 +12,9 @@ security:
             algorithm: auto
 
     role_hierarchy:
-        ROLE_ADMIN: [ROLE_USER]
+        ROLE_USER-PLUS: ROLE_USER
+        ROLE_USER-PREMIUM: ROLE_USER-PLUS
+        ROLE_ADMIN: ROLE_USER-PREMIUM
 
     hide_user_not_found: false
 

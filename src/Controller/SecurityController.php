@@ -80,6 +80,9 @@ class SecurityController extends AbstractController
 
                 if($user->getRoles() === []){
                     $user->setRoles(array("ROLE_USER"));
+                    $user->setPaiementStatus(true);
+                    $user->setPaiementDate(new \DateTime());
+                    $user->setPaiementDateType("free");
                 }
 
                 $em->persist($user);

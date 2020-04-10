@@ -37,3 +37,9 @@ services:
             - "@app.email.application_mailer"
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+            #- { name: doctrine.event_listener, event: postUpdate }
+
+    app.service.logged_user:
+        class: App\Service\LoggedUser
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login }

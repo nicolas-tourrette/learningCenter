@@ -1,0 +1,55 @@
+{% if app.user.paiementType == "month" %}
+
+    {% if app.user.paiementDate|date_modify("+1 month")|date("Y-m-d") < "now"|date("Y-m-d") %}
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Attention !</strong> Votre compte a été désactivé car l'échéance de paiement est dépassée. Veuillez procéder
+            au paiement afin de réactiver votre compte. La dernière date de paiement était le
+            {{ app.user.paiementDate|date("d/m/Y") }}.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    {% elseif "now"|date_modify("+1 week")|date("d/m/Y") >= app.user.paiementDate|date_modify("+1 month")|date("d/m/Y") %}
+
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Attention !</strong> Votre compte va être bientôt désactivé car l'échéance de paiement est dans moins d'une
+            semaine. Veuillez procéder au paiement afin de ne pas désactiver votre compte.<br>La dernière date de paiement était
+            le {{ app.user.paiementDate|date("d/m/Y") }} et la prochaine échéance est le
+            {{ app.user.paiementDate|date_modify("+1 month")|date("d/m/Y") }}.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    {% endif %}
+
+{% else %}
+
+    {% if app.user.paiementDate|date_modify("+1 year")|date("Y-m-d") < "now"|date("Y-m-d") %}
+
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Attention !</strong> Votre compte a été désactivé car l'échéance de paiement est dépassée. Veuillez procéder
+            au paiement afin de réactiver votre compte. La dernière date de paiement était le
+            {{ app.user.paiementDate|date("d/m/Y") }}.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    {% elseif "now"|date_modify("+1 month")|date("Y-m-d") >= app.user.paiementDate|date_modify("+1 year")|date("Y-m-d") %}
+
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Attention !</strong> Votre compte va être bientôt désactivé car l'échéance de paiement est dans moins d'une
+            semaine. Veuillez procéder au paiement afin de ne pas désactiver votre compte.<br>La dernière date de paiement était
+            le {{ app.user.paiementDate|date("d/m/Y") }} et la prochaine échéance est le
+            {{ app.user.paiementDate|date_modify("+1 year")|date("d/m/Y") }}.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    {% endif %}
+
+{% endif %}

@@ -102,13 +102,13 @@
                                     <div class="btn-group">
                                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                                             <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                                <img width="42" class="rounded-circle" src="{{ asset(app.user.profilimage) }}" alt="">
+                                                <img width="42" class="rounded-circle" src="{{ asset(app.user.profilimage) }}" alt="{{ app.user.name }}">
                                                 <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                             </a>
                                             <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                                 <h6 tabindex="-1" class="dropdown-header">Mon compte</h6>
-                                                <button type="button" tabindex="0" class="dropdown-item">Mon compte</button>
-                                                <button type="button" tabindex="0" class="dropdown-item">Paramètres</button>
+                                                <a href="{{ path('compte') }}" class="dropdown-item">Mon compte</a>
+                                                <a href="{{ path('update') }}" class="dropdown-item">Paramètres</a>
                                                 <a href="{{ path('logout') }}" class="dropdown-item">Se déconnecter</a>
                                                 <div tabindex="-1" class="dropdown-divider"></div>
                                                 <h6 tabindex="-1" class="dropdown-header">Mes applications</h6>
@@ -220,7 +220,7 @@
                                 </li>
                                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                                     <li>
-                                        <a href="#">
+                                        <a href="{{ path('compte') }}" id="compte">
                                             <i class="metismenu-icon pe-7s-user"></i>
                                             Mon compte
                                         </a>
@@ -465,7 +465,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="javascript:void(0);" class="nav-link">
+                                                    <a href="{{ path('compte') }}" class="nav-link">
                                                         <i class="nav-link-icon pe-7s-user"></i>
                                                         <span>
                                                             Mon compte
@@ -488,6 +488,19 @@
                         </div>
                         {% block pageContent %}
                         <div class="row">
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <div class="col-md-12">
+                            {% include 'app/account/avertissement_echeance.html.twig' %}
+                            </div>
+                            {% endif %}
+                            {% for message in app.session.flashbag.get('success') %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            {% endfor %}
                             <div class="col-md-6 col-xl-4">
                                 <div class="card mb-3 widget-content bg-primary">
                                     <div class="widget-content-wrapper text-white">

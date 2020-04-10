@@ -93,8 +93,39 @@ class User implements UserInterface
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLogin;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $lastIP;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $paiementStatus;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $paiementDate;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paiementType;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
     public function __construct(){
         $this->isActive = true;
+        $this->updated = new \DateTime();
     }
     
     public function getId(): ?int
@@ -287,6 +318,78 @@ class User implements UserInterface
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getLastLogin(): ?\DateTimeInterface
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?\DateTimeInterface $lastLogin): self
+    {
+        $this->lastLogin = $lastLogin;
+
+        return $this;
+    }
+
+    public function getLastIP(): ?string
+    {
+        return $this->lastIP;
+    }
+
+    public function setLastIP(?string $lastIP): self
+    {
+        $this->lastIP = $lastIP;
+
+        return $this;
+    }
+
+    public function getPaiementStatus(): ?bool
+    {
+        return $this->paiementStatus;
+    }
+
+    public function setPaiementStatus(bool $paiementStatus): self
+    {
+        $this->paiementStatus = $paiementStatus;
+
+        return $this;
+    }
+
+    public function getPaiementDate(): ?\DateTimeInterface
+    {
+        return $this->paiementDate;
+    }
+
+    public function setPaiementDate(?\DateTimeInterface $paiementDate): self
+    {
+        $this->paiementDate = $paiementDate;
+
+        return $this;
+    }
+
+    public function getPaiementType(): ?string
+    {
+        return $this->paiementType;
+    }
+
+    public function setPaiementType(?string $paiementType): self
+    {
+        $this->paiementType = $paiementType;
+
+        return $this;
+    }
+
+    public function getUpdated(): ?\DateTimeInterface
+    {
+        return $this->updated;
+    }
+
+    public function setUpdated(\DateTimeInterface $updated): self
+    {
+        $this->updated = $updated;
 
         return $this;
     }

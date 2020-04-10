@@ -71,8 +71,8 @@
                                         <tr>
                                             <td>{% if "ROLE_USER-PLUS" in user.roles %}LearnApp Classic+{% elseif "ROLE_USER-PREMIUM" in user.roles %}LearnApp Premium{% endif %}</td>
                                             <td>1 mois</td>
-                                            <td>{% if "ROLE_USER-PLUS" in user.roles %}5, 00 €{% elseif "ROLE_USER-PREMIUM" in user.roles %}10,00 €{% endif %}</td>
-                                            <td>{% if "ROLE_USER-PLUS" in user.roles %}60, 00 €{% elseif "ROLE_USER-PREMIUM" in user.roles %}120,00 €{% endif %}</td>
+                                            <td>{% if "ROLE_USER-PLUS" in user.roles %}5,00 €{% elseif "ROLE_USER-PREMIUM" in user.roles %}10,00 €{% endif %}</td>
+                                            <td>{% if "ROLE_USER-PLUS" in user.roles %}60,00 €{% elseif "ROLE_USER-PREMIUM" in user.roles %}120,00 €{% endif %}</td>
                                             <td>{{ "now"|date_modify("+2 week")|date("d/m/Y") }}</td>
                                         </tr>
                                     </tbody>

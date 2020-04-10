@@ -73,11 +73,4 @@ class MainController extends AbstractController {
         }
         return null;
     }
-
-    /**
-    * @Route("/test", name="test")
-    */
-    public function test(Request $request){
-        return $this->render('email/new_account_bill.html.twig', array('user' => $this->getUser()));
-    }
 }

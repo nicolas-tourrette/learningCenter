@@ -19,8 +19,8 @@ else if (maPage != "" || maPage != "#") {
     idForItem += CheminRepertoire[pathLength - 1];
 }
 
-if (maPage == "version"){
-    idForItem = "about";
+if (maPage == "version" || maPage == "update"){
+    idForItem = CheminRepertoire[pathLength - 2];
 }
 
 if (idForItem.indexOf("#") > 0) {
