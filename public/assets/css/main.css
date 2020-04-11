@@ -9501,7 +9501,7 @@ button,
 .closed-sidebar .app-sidebar {
  transition:all .3s ease;
  width:80px;
- /*min-width:80px;*/
+ min-width:80px;
  flex:0 0 80px;
  z-index:13
 }

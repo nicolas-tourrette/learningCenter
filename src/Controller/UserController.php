@@ -180,8 +180,14 @@ class UserController extends AbstractController {
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
 			if($form->isSubmitted() && $form->isValid()) {
-                
-                $user->addApps($form->getData()["apps"]);
+
+                $bool = $user->addApps($form->getData()["apps"]);
+                if($bool === null){ $bool = true; }
+
+                if($bool === false){
+                    $request->getSession()->getFlashBag()->add('danger', 'Avec votre sélection, vous dépassez le nombre maximal d\'applications pour votre abonnement. Veuillez essayer avec moins d\'applications dans votre panier.');
+                    return $this->redirectToRoute('compte');
+                };
                 $user->setUpdated(new \DateTime());
 
                 $em->persist($user);

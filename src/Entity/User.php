@@ -229,6 +229,9 @@ class User implements UserInterface
             $currentApps = array_unique($currentApps);
             $nbApps = count($currentApps);
         }
+        else{
+            return false;
+        }
 
         $this->setApps($currentApps);
     }

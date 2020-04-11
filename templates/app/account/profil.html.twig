@@ -94,13 +94,9 @@ Mon compte | {{ parent() }}
                                 {% for appli in app.user.apps %}
                                     <li class="list-group-item">
                                         {{ appli }}
-                                        <form class="float-right" action="{{ path('deleteApp', {appname: appli}) }}" method="POST">
-                                            {# <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" /> #}
-                                            <button class="btn p-0 text-danger" type="submit" name="deleteButton">
-                                                <i class="fas fa-trash" class="text-white"></i>
-                                            </button>
-                                        </form>
-                                        {# <a class="float-right" href="{{ path('deleteApp', {appname: appli}) }}"><i class="fas fa-trash text-danger"></i></a></li> #}
+                                        <button class="btn p-0 text-danger float-right" data-toggle="modal" data-target="#confirm" onMouseOver="actio('{{ appli }}')">
+                                            <i class="fas fa-trash" class="text-white"></i>
+                                        </button>
                                 {% endfor %}
                                 {% else %}
                                     <li class="list-group-item text-center"><a href="{{ path('addApps') }}">Ajouter des applications</a></li>
@@ -176,22 +172,14 @@ Mon compte | {{ parent() }}
 
 {% block javascript %}
 {{ parent() }}
-
-<!-- Jquery JS-->
-<script src="https://esirem.nicolas-t.ovh/vendor/jquery-3.2.1.min.js"></script>
-<script src="https://esirem.nicolas-t.ovh/vendor/bootstrap-4.1/bootstrap.min.js"></script>
 <script type="text/javascript">
-    $('button[name="deleteButton"]').on('click', function (e) {
-        var $form = $(this).closest('form');
-        e.preventDefault();
-        $('#confirm').modal({
-                backdrop: 'static',
-                keyboard: false
-            })
-            .on('click', '#delete', function (e) {
-                $form.trigger('submit');
-            });
-    });
+    function actio(name){
+        let path = document.getElementById("delete").action.split('/');
+        let appname = path[path.length - 1];
+        document.getElementById("delete").action = document.getElementById("delete").action.replace(appname, name);
+        console.log(document.getElementById("delete").action);
+        document.getElementById("name").innerHTML = name;
+    }
 </script>
 {% endblock %}
 
@@ -204,12 +192,16 @@ Mon compte | {{ parent() }}
             </div>
             <div class="modal-body">
                 <p>
-                    Êtes-vous certain de vouloir supprimer cette application de votre compte ? Cette action est irréversible !
+                    Êtes-vous certain de vouloir supprimer l'application <span id="name"></span> de votre compte ? Cette action est irréversible !
                 </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-danger" id="delete">Confirmer</button>
+                <form id="delete" action="{{ path('deleteApp', {appname: 'appnametoreplace'}) }}" method="POST">
+                    <button class="btn btn-danger" type="submit">
+                        Confirmer
+                    </button>
+                </form>
             </div>
         </div>
     </div>

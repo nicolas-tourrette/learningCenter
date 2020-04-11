@@ -2,5 +2,13 @@
     {
         "appName": "GéoBrevet",
         "version": "0.1.0"
+    },
+    {
+        "appName": "LaTeX",
+        "version": "0.1.0"
+    },
+    {
+        "appName": "Historio",
+        "version": "0.1.0"
     }
 ]
