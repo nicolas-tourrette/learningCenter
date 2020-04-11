@@ -43,6 +43,10 @@ class LoggedUser
                 $user->setPaiementStatus(false);
             }
         }
+        elseif($paiement == "due" && $dateNow > $date->add(new DateInterval('P14D'))){
+            $user->setIsActive(false);
+            $user->setPaiementStatus(false);
+        }
 
         // Persist the data to database.
         $this->em->persist($user);

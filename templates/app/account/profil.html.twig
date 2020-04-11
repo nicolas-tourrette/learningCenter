@@ -82,7 +82,7 @@ Mon compte | {{ parent() }}
                 <i class="header-icon pe-7s-box2"> </i>
                 Mes applications
                 <div class="btn-actions-pane-right actions-icon-btn">
-                    <a class="btn-icon btn-icon-only btn btn-link" href="{{ path('addApps') }}"><i class="pe-7s-config btn-icon-wrapper"></i></a>
+                    <a class="btn-icon btn-icon-only btn btn-link" href="{{ path('addApps') }}"><i class="pe-7s-plus btn-icon-wrapper"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -92,7 +92,15 @@ Mon compte | {{ parent() }}
                             <ul class="list-group list-group-flush">
                                 {% if app.user.apps is not empty %}
                                 {% for appli in app.user.apps %}
-                                    <li class="list-group-item">{{ appli }}</li>
+                                    <li class="list-group-item">
+                                        {{ appli }}
+                                        <form class="float-right" action="{{ path('deleteApp', {appname: appli}) }}" method="POST">
+                                            {# <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" /> #}
+                                            <button class="btn p-0 text-danger" type="submit" name="deleteButton">
+                                                <i class="fas fa-trash" class="text-white"></i>
+                                            </button>
+                                        </form>
+                                        {# <a class="float-right" href="{{ path('deleteApp', {appname: appli}) }}"><i class="fas fa-trash text-danger"></i></a></li> #}
                                 {% endfor %}
                                 {% else %}
                                     <li class="list-group-item text-center"><a href="{{ path('addApps') }}">Ajouter des applications</a></li>
@@ -142,7 +150,8 @@ Mon compte | {{ parent() }}
                                 {{ app.user.paiementDate|date_modify("+1 year")|date("d/m/Y") }}
                                 {% include 'app/account/avertissement_echeance.html.twig' %}
                             {% else %}
-                                {{ app.user.updated|date_modify("+2 week")|date("d/m/Y") }}
+                                {{ app.user.paiementDate|date_modify("+2 week")|date("d/m/Y") }}
+                                {% include 'app/account/avertissement_echeance.html.twig' %}
                             {% endif %}
                         </p>
                         {% endif %}
@@ -163,4 +172,46 @@ Mon compte | {{ parent() }}
     </div>
 </div>
 
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+
+<!-- Jquery JS-->
+<script src="https://esirem.nicolas-t.ovh/vendor/jquery-3.2.1.min.js"></script>
+<script src="https://esirem.nicolas-t.ovh/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $('button[name="deleteButton"]').on('click', function (e) {
+        var $form = $(this).closest('form');
+        e.preventDefault();
+        $('#confirm').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+            .on('click', '#delete', function (e) {
+                $form.trigger('submit');
+            });
+    });
+</script>
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-white" id="smallmodalLabel">Suppression d'une application</h5>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Êtes-vous certain de vouloir supprimer cette application de votre compte ? Cette action est irréversible !
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" id="delete">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

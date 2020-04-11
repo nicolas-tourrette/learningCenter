@@ -39,7 +39,7 @@ class MainController extends AbstractController {
     }
 
     /**
-     * @Route("/version", name="version")
+     * @Route("/about/version", name="version")
      */
     public function version(){
         return $this->render('app/version.html.twig', array(

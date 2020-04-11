@@ -13,14 +13,13 @@ Mon compte | {{ parent() }}
 {% block pageTitle %}
 <div class="page-title-heading">
     <div class="page-title-icon">
-        <i class="pe-7s-user icon-gradient bg-night-sky">
+        <i class="pe-7s-box2 icon-gradient bg-night-sky">
         </i>
     </div>
     <div class="page-title">
-        Mon compte
+        Mes applications
         <div class="page-title-subheading">
-            {{ app.user.name }}, voici les données que nous avons à votre sujet. Toute modification de ces données engage votre responsabilité sur leur exactitude.<br>
-            Dernière connexion : {{ app.user.lastLogin|date("d/m/Y H:i:s") }} par @{{ app.user.lastIP }}
+            {{ app.user.name }}, voici les applications que nous vous proposons d'ajouter à votre compte. Vous avez encore la possibilité d'ajouter X applications à votre compte.
         </div>
     </div>
 </div>
@@ -40,7 +39,7 @@ Mon compte | {{ parent() }}
                 <p>
                     Veuillez compléter le formulaire suivant afin de mettre à jour votre compte LearnApp.
                 </p>
-                <form class="needs-validation" action="{{ path('update') }}" method="post">
+                <form class="needs-validation" action="{{ path('addApps') }}" method="post">
                     <div class="form-group">
                         {{ form_errors(form) }}
                     </div>
@@ -51,7 +50,7 @@ Mon compte | {{ parent() }}
                     </div>
                     <div class="form-group">
                         {{ form_widget(form.submit) }}
-                        <button type="cancel" class="btn btn-warning">Annuler les modifications</button>
+                        <button type="reset" class="btn btn-warning">Annuler les modifications</button>
                         <a href="{{ path('compte') }}" class="btn btn-danger">Annuler la mise à jour</a>
                     </div>
                     {{ form_rest(form) }}

@@ -25,7 +25,7 @@
 
     {% endif %}
 
-{% else %}
+{% elseif app.user.paiementType == "year" %}
 
     {% if app.user.paiementDate|date_modify("+1 year")|date("Y-m-d") < "now"|date("Y-m-d") %}
 
@@ -50,6 +50,21 @@
             </button>
         </div>
 
+    {% endif %}
+
+{% else %}
+
+    {% if "now" >= app.user.paiementDate|date_modify("+2 week")|date("Y-m-d") %}
+        
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Attention !</strong> Votre compte a été désactivé car l'échéance de paiement est dépassée. Veuillez procéder
+            au paiement afin de réactiver votre compte. La date d'échéance était le
+            {{ app.user.paiementDate|date_modify("+2 week")|date("d/m/Y") }}.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
     {% endif %}
 
 {% endif %}

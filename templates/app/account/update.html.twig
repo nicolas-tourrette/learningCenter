@@ -106,7 +106,7 @@ Mon compte | {{ parent() }}
                     </div>
                     <div class="form-group">
                         {{ form_widget(form.submit, { 'label': 'Confirmer la mise à jour', 'attr': {'class': 'btn btn-success'}}) }}
-                        <button type="cancel" class="btn btn-warning">Annuler les modifications</button>
+                        <button type="reset" class="btn btn-warning">Annuler les modifications</button>
                         <a href="{{ path('compte') }}" class="btn btn-danger">Annuler la mise à jour</a>
                     </div>
                     {{ form_rest(form) }}

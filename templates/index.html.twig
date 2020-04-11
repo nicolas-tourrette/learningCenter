@@ -486,6 +486,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                {% for message in app.session.flashbag.get('success') %}
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endfor %}
+                                {% for message in app.session.flashbag.get('warning') %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endfor %}
+                                {% for message in app.session.flashbag.get('danger') %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
                         {% block pageContent %}
                         <div class="row">
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
@@ -493,14 +521,6 @@
                             {% include 'app/account/avertissement_echeance.html.twig' %}
                             </div>
                             {% endif %}
-                            {% for message in app.session.flashbag.get('success') %}
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                {{ message }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            {% endfor %}
                             <div class="col-md-6 col-xl-4">
                                 <div class="card mb-3 widget-content bg-primary">
                                     <div class="widget-content-wrapper text-white">
@@ -632,3 +652,7 @@
         {% endblock %}
     </body>
 </html>
+
+
+{% block modal %}
+{% endblock %}

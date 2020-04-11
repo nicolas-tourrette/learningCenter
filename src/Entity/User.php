@@ -215,6 +215,30 @@ class User implements UserInterface
         return $this->apps;
     }
 
+    public function addApps(array $apps){
+        $currentApps = $this->apps;
+        $nbApps = count($this->apps);
+        $nbMaxApps = 2;
+
+        if(in_array("ROLE_USER-PLUS", $this->roles)){
+            $nbMaxApps = $nbMaxApps+2;
+        }
+        
+        if($nbApps + count($apps) <= $nbMaxApps || in_array("ROLE_USER-PREMIUM", $this->roles)){
+            $currentApps = array_merge($currentApps, $apps);
+            $currentApps = array_unique($currentApps);
+            $nbApps = count($currentApps);
+        }
+
+        $this->setApps($currentApps);
+    }
+
+    public function removeApp(string $index){
+        $currentApps = $this->apps;
+        unset($currentApps[array_search($index, $currentApps)]);
+        $this->setApps($currentApps);
+    }
+
     public function setApps(?array $apps): self
     {
         $this->apps = $apps;

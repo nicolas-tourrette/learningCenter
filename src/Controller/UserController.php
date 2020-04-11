@@ -61,7 +61,6 @@ class UserController extends AbstractController {
 
                 if($user->getRoles() === array("ROLE_USER")){
                     $user->setPaiementStatus(true);
-                    $user->setPaiementDate(new \DateTime());
                     $user->setPaiementType("free");
                 }
                 else{
@@ -82,12 +81,12 @@ class UserController extends AbstractController {
                     ;
 
                     $user->setPaiementStatus(false);
-                    $user->setPaiementDate(null);
-                    $user->setPaiementType("");
+                    $user->setPaiementType("due");
 
                     $mailer->send($message);
                 }
 
+                $user->setPaiementDate(new \DateTime());
                 $user->setUpdated(new \DateTime());
 
                 $em->persist($user);
@@ -137,21 +136,27 @@ class UserController extends AbstractController {
         
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-
-        
+        $apps = $this->getUser()->getApps();
 
         $choices = array();
         foreach($jsonDatas as $app){
-            $label = $app["appName"].' (v.'.$app["version"].')';
-            $choice = array($label => $app["appName"]);
-            array_push($choices, $choice);
+            if(!in_array($app["appName"], $apps)){
+                $label = $app["appName"].' (v.'.$app["version"].')';
+                $choice = array($label => $app["appName"]);
+                array_push($choices, $choice);
+            }
+        }
+
+        if($choices == []){
+            $request->getSession()->getFlashBag()->add('warning', 'Aucune application disponible !');
+            return $this->redirectToRoute('compte');
         }
 
         $form = $this->createFormBuilder()
             ->add('apps',
                 ChoiceType::class,
                 array(
-                    'label' => "Applications disponibles",
+                    'label' => "Applications disponibles à l'ajout",
                     'required' => true,
                     'expanded' => true,
                     'multiple' => true,
@@ -175,11 +180,8 @@ class UserController extends AbstractController {
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
 			if($form->isSubmitted() && $form->isValid()) {
-                $user->setPassword($passwordEncoder->encodePassword(
-					$user,
-					$user->getPassword()
-                ));
-
+                
+                $user->addApps($form->getData()["apps"]);
                 $user->setUpdated(new \DateTime());
 
                 $em->persist($user);
@@ -205,8 +207,26 @@ class UserController extends AbstractController {
         }
         
         return $this->render('app/account/add_apps.html.twig', array(
-            'user' => $user,
 			'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Route("/compte/myapps/delete/{appname}", name="deleteApp")
+     */
+    public function compteDeleteApp(Request $request, $appname){
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+			return $this->redirectToRoute('login', array('last_username' => $this->getUser()->getUsername()));
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $user->removeApp($appname);
+        $user->setUpdated(new \DateTime());
+        $em->persist($user);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('success', "L'application a été retirée avec succès de votre compte.");
+        return $this->redirectToRoute('compte');
     }
 }
