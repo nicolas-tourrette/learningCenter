@@ -19,6 +19,9 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use App\Form\UserType;
 
 use App\Entity\User;
@@ -40,13 +43,13 @@ class UserController extends AbstractController {
      * @Route("/compte/update", name="update")
      */
     public function compteUpdate(Request $request, UserPasswordEncoderInterface $passwordEncoder, MailerInterface $mailer){
-        $em = $this->getDoctrine()->getManager();
-        $user = $this->getUser();
-        $form = $this->createForm(UserType::class, $user);
-
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
 			return $this->redirectToRoute('login', array('last_username' => $this->getUser()->getUsername()));
         }
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $form = $this->createForm(UserType::class, $user);
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
@@ -55,8 +58,6 @@ class UserController extends AbstractController {
 					$user,
 					$user->getPassword()
                 ));
-
-                dump($user->getRoles());
 
                 if($user->getRoles() === array("ROLE_USER")){
                     $user->setPaiementStatus(true);
@@ -112,6 +113,98 @@ class UserController extends AbstractController {
         }
         
         return $this->render('app/account/update.html.twig', array(
+            'user' => $user,
+			'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * @Route("/compte/myapps", name="addApps")
+     */
+    public function compteUpdateApps(Request $request, MailerInterface $mailer){
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+			return $this->redirectToRoute('login', array('last_username' => $this->getUser()->getUsername()));
+        }
+
+        $jsonFile = "assets/datas/apps.json";
+        if(file_exists($jsonFile)){
+            $json = file_get_contents($jsonFile, false);
+            $jsonDatas = json_decode($json, true);
+        }
+        else{
+            throw $this->createNotFoundException('Impossible de charger la liste des applications.');
+        }
+        
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+
+        
+
+        $choices = array();
+        foreach($jsonDatas as $app){
+            $label = $app["appName"].' (v.'.$app["version"].')';
+            $choice = array($label => $app["appName"]);
+            array_push($choices, $choice);
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('apps',
+                ChoiceType::class,
+                array(
+                    'label' => "Applications disponibles",
+                    'required' => true,
+                    'expanded' => true,
+                    'multiple' => true,
+                    'choices' => $choices,
+                    'choice_attr' => function($choice, $key, $value) {
+                        return ['class' => "form-check-input"];
+                    },
+                    'attr' => ['class' => "form-check"]
+                )
+            )
+            ->add('submit',
+                SubmitType::class,
+                array(
+                    'label' => "Valider mon choix d'applications",
+                    'attr' => ['class' => "btn btn-primary"]
+                )
+            )
+            ->getForm()
+        ;
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+			if($form->isSubmitted() && $form->isValid()) {
+                $user->setPassword($passwordEncoder->encodePassword(
+					$user,
+					$user->getPassword()
+                ));
+
+                $user->setUpdated(new \DateTime());
+
+                $em->persist($user);
+
+                /*$log = new Log();
+                $log->setLevel("success");
+                $log->setMessage("Compte de l'utilisateur ".$user->getUsername()." mis à jour avec succès.");
+                $em->persist($log);*/
+
+				$em->flush();
+
+				$request->getSession()->getFlashBag()->add('success', 'Votre compte a bien été mis à jour !');
+                return $this->redirectToRoute('compte');
+            }
+            else{
+                /*$log = new Log();
+                $log->setLevel("danger");
+                $log->setMessage("Échec de la mise à jour du compte de l'utilisateur ".$user->getUsername().".");
+                $em->persist($log);
+
+				$em->flush();*/
+            }
+        }
+        
+        return $this->render('app/account/add_apps.html.twig', array(
             'user' => $user,
 			'form' => $form->createView()
         ));

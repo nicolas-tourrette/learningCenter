@@ -19,7 +19,7 @@ else if (maPage != "" || maPage != "#") {
     idForItem += CheminRepertoire[pathLength - 1];
 }
 
-if (maPage == "version" || maPage == "update"){
+if (maPage == "version" || CheminRepertoire[pathLength - 2] == "compte"){
     idForItem = CheminRepertoire[pathLength - 2];
 }
 

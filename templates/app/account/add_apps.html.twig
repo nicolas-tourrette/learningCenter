@@ -1,0 +1,64 @@
+{# templates/security/register.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+Mon compte | {{ parent() }}
+{% endblock %}
+
+{% block css %}
+<link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-user icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        Mon compte
+        <div class="page-title-subheading">
+            {{ app.user.name }}, voici les données que nous avons à votre sujet. Toute modification de ces données engage votre responsabilité sur leur exactitude.<br>
+            Dernière connexion : {{ app.user.lastLogin|date("d/m/Y H:i:s") }} par @{{ app.user.lastIP }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="mb-3 card">
+            <div class="card-header-tab card-header-tab-animation card-header">
+                <div class="card-header-title">
+                    Mise à jour de votre compte LearnApp
+                </div>
+            </div>
+            <div class="card-body">
+                <p>
+                    Veuillez compléter le formulaire suivant afin de mettre à jour votre compte LearnApp.
+                </p>
+                <form class="needs-validation" action="{{ path('update') }}" method="post">
+                    <div class="form-group">
+                        {{ form_errors(form) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.apps) }}
+                        {{ form_errors(form.apps) }}
+                        {{ form_widget(form.apps) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(form.submit) }}
+                        <button type="cancel" class="btn btn-warning">Annuler les modifications</button>
+                        <a href="{{ path('compte') }}" class="btn btn-danger">Annuler la mise à jour</a>
+                    </div>
+                    {{ form_rest(form) }}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -82,7 +82,7 @@ Mon compte | {{ parent() }}
                 <i class="header-icon pe-7s-box2"> </i>
                 Mes applications
                 <div class="btn-actions-pane-right actions-icon-btn">
-                    <a class="btn-icon btn-icon-only btn btn-link" href="#"><i class="pe-7s-config btn-icon-wrapper"></i></a>
+                    <a class="btn-icon btn-icon-only btn btn-link" href="{{ path('addApps') }}"><i class="pe-7s-config btn-icon-wrapper"></i></a>
                 </div>
             </div>
             <div class="card-body">
@@ -90,9 +90,13 @@ Mon compte | {{ parent() }}
                     <div class="scrollbar-container ps--active-y ps">
                         <p>
                             <ul class="list-group list-group-flush">
+                                {% if app.user.apps is not empty %}
                                 {% for appli in app.user.apps %}
                                     <li class="list-group-item">{{ appli }}</li>
                                 {% endfor %}
+                                {% else %}
+                                    <li class="list-group-item text-center"><a href="{{ path('addApps') }}">Ajouter des applications</a></li>
+                                {% endif %}
                             </ul>
                         </p>
                         <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
