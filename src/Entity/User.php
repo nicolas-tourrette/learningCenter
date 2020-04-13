@@ -8,6 +8,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields="username", message="Un utilisateur possédant cet identifiant ou ce mail existe déjà.")
@@ -215,16 +217,10 @@ class User implements UserInterface
         return $this->apps;
     }
 
-    public function addApps(array $apps){
+    public function addApps(array $apps, $remainingApps){
         $currentApps = $this->apps;
-        $nbApps = count($this->apps);
-        $nbMaxApps = 2;
 
-        if(in_array("ROLE_USER-PLUS", $this->roles)){
-            $nbMaxApps = $nbMaxApps+2;
-        }
-        
-        if($nbApps + count($apps) <= $nbMaxApps || in_array("ROLE_USER-PREMIUM", $this->roles)){
+        if($remainingApps > 0 || $remainingApps == "UNLIMITED"){
             $currentApps = array_merge($currentApps, $apps);
             $currentApps = array_unique($currentApps);
             $nbApps = count($currentApps);
@@ -233,6 +229,13 @@ class User implements UserInterface
             return false;
         }
 
+        $this->setApps($currentApps);
+    }
+
+    public function addPartnerApps(array $apps){
+        $currentApps = $this->apps;
+        $currentApps = array_merge($currentApps, $apps);
+        $currentApps = array_unique($currentApps);
         $this->setApps($currentApps);
     }
 

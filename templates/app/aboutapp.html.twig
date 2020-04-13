@@ -1,0 +1,104 @@
+{# templates/app/geobrevet/about.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block css %}
+<link href="{{ asset('assets/css/version.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block title %}
+Application {{ appDetails.appName }} | {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-box2 icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        Application {{ appDetails.appName }}
+        <div class="page-title-subheading">
+            {{ appDetails.appDescription }}<br>
+            Version actuelle de l'application : {{ appDetails.appVersion }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+
+<ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+    <li class="nav-item">
+        <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#aboutTab">
+            <span>À propos de {{appDetails.appName}}</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#versionsTab">
+            <span>Versions de {{appDetails.appName}}</span>
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane tabs-animation fade show active" id="aboutTab" role="tabpanel">
+
+        {% include ("app/" ~ appDetails.appCode ~ "/about.html.twig") %}
+
+    </div>
+
+    <div class="tab-pane tabs-animation fade show" id="versionsTab" role="tabpanel">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3 card">
+                    <div class="card-header-tab card-header-tab-animation card-header">
+                        <div class="card-header-title">
+                            Versions de {{ appDetails.appName }}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            {% if listVersions is not null %}
+                            {% set compteur = 0 %}
+                            {% for version in listVersions %}
+                            <div class="version{% if compteur > 4 %} masked{% endif %}">
+                                <h2>
+                                    <div id="number">{{ version.number }}</div>{{ version.date }}
+                                </h2>
+                                <p id="item">
+                                    <ul>
+                                        {% for item in version.items %}
+                                        <li>
+                                            <div class="item item-{{ item.type|lower }}">{{ item.type }}</div>{{ item.content }}
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </p>
+                            </div>
+                            {% set compteur = compteur + 1 %}
+                            {% endfor %}
+                            {% if compteur > 5 %}
+                            <br>
+                            <button id="displaymore" onclick="displayMoreVersion();" class="btn btn-primary"><i class="fas fa-chevron-down"></i>
+                                &nbsp; Afficher plus</button>
+                            <button id="displayless" onclick="displayLessVersion();" class="btn btn-primary masked"><i
+                                    class="fas fa-chevron-up"></i> &nbsp; Afficher moins</button>
+                            {% endif %}
+                            {% else %}
+                            Pas d'historique disponible.
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script src="{{ asset('assets/scripts/version.js') }}"></script>
+{% endblock %}

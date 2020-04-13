@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
 class MainController extends AbstractController {
@@ -31,11 +32,20 @@ class MainController extends AbstractController {
     }
 
     /**
-    * @Route("/apps/geobrevet", name="geobrevet")
+    * @Route("/apps/{name}", name="appDetails")
     */
-    public function geobrevet(){
-        
-        return $this->render('app/geobrevet/about.html.twig');
+    public function appDetails($name){
+        $em = $this->getDoctrine()->getManager();
+        $appDetails = $em->getRepository("App:App")->findOneByAppCode($name);
+
+        if($appDetails == null){
+            throw new NotFoundHttpException("Cette application n'existe pas.");
+        }
+
+        return $this->render('app/aboutapp.html.twig', array(
+            'appDetails' => $appDetails,
+            'listVersions' => $this->getVersions("assets/datas/".$name."/versions.json")
+        ));
     }
 
     /**
@@ -43,12 +53,12 @@ class MainController extends AbstractController {
      */
     public function version(){
         return $this->render('app/version.html.twig', array(
-            'listVersions' => $this->getVersions()
+            'listVersions' => $this->getVersions("assets/versions.json")
         ));
     }
 
     public function getLastVersion(){
-        $jsonFile = "assets/version.json";
+        $jsonFile = "assets/versions.json";
         if(file_exists($jsonFile)){
             $json = file_get_contents($jsonFile, false);
             $jsonDatas = json_decode($json, true);
@@ -63,8 +73,7 @@ class MainController extends AbstractController {
         ));
     }
 
-    public function getVersions(){
-        $jsonFile = "assets/version.json";
+    public function getVersions($jsonFile){
         if(file_exists($jsonFile)){
             $json = file_get_contents($jsonFile, false);
             $jsonDatas = json_decode($json, true);

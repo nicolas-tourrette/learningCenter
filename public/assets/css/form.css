@@ -23,8 +23,8 @@ div.form-group ul li::before {
 }
 
 .form-check label {
-    display: block;
-    padding-right: 10px;
+    display: inline-block;
+    margin-right: 66px;
     padding-left: 22px;
     text-indent: -22px;
 }

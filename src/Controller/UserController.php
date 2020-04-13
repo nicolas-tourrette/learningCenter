@@ -36,7 +36,18 @@ class UserController extends AbstractController {
      * @Route("/compte", name="compte")
      */
     public function compte(){
-        return $this->render('app/account/profil.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $apps = array();
+
+        foreach($user->getApps() as $app){
+            $thisApp = $em->getRepository("App:App")->findByAppCode($app);
+            array_push($apps, ['appId' => $thisApp[0]->getAppCode(), 'appName' => $thisApp[0]->getAppName()]);
+        }
+
+        return $this->render('app/account/profil.html.twig', array(
+            'apps' => $apps
+        ));
     }
 
     /**
@@ -124,32 +135,30 @@ class UserController extends AbstractController {
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
 			return $this->redirectToRoute('login', array('last_username' => $this->getUser()->getUsername()));
         }
-
-        $jsonFile = "assets/datas/apps.json";
-        if(file_exists($jsonFile)){
-            $json = file_get_contents($jsonFile, false);
-            $jsonDatas = json_decode($json, true);
-        }
-        else{
-            throw $this->createNotFoundException('Impossible de charger la liste des applications.');
-        }
         
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
+        $subscribaleApps = $em->getRepository("App:App")->findMySubscribaleApps($user->getPartnerSchool());
         $apps = $this->getUser()->getApps();
 
+        $counter = count($apps) - count(preg_grep("/partner-*/", $apps));
+        if($this->isGranted("ROLE_USER")){
+            $remainingApps = 2-$counter;
+        }
+        elseif ($this->isGranted("ROLE_USER-PLUS")) {
+            $remainingApps = 4-$counter;
+        }
+        else{
+            $remainingApps = "UNLIMITED";
+        }
+        
         $choices = array();
-        foreach($jsonDatas as $app){
-            if(!in_array($app["appName"], $apps)){
-                $label = $app["appName"].' (v.'.$app["version"].')';
-                $choice = array($label => $app["appName"]);
+        foreach ($subscribaleApps as $key => $value) {
+            if(!in_array($value->getAppCode(), $apps)){
+                $label = $value->getAppName().' (v.'.$value->getAppVersion().')';
+                $choice = array($label => $value->getAppCode());
                 array_push($choices, $choice);
             }
-        }
-
-        if($choices == []){
-            $request->getSession()->getFlashBag()->add('warning', 'Aucune application disponible !');
-            return $this->redirectToRoute('compte');
         }
 
         $form = $this->createFormBuilder()
@@ -180,8 +189,19 @@ class UserController extends AbstractController {
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
 			if($form->isSubmitted() && $form->isValid()) {
+                $subscribtion = $form->getData()["apps"];
+                $appsToAdd = array();
+                $partnerApps = $em->getRepository("App:App")->findByAppPartnerSchool($user->getPartnerSchool());
 
-                $bool = $user->addApps($form->getData()["apps"]);
+                foreach ($partnerApps as $key => $value) {
+                    if(in_array($value->getAppCode(), $subscribtion)){
+                        array_push($appsToAdd, $value->getAppCode());
+                        unset($subscribtion[array_search($value->getAppCode(), $subscribtion)]);
+                    }
+                }
+                $user->addPartnerApps($appsToAdd);
+
+                $bool = $user->addApps($subscribtion, $remainingApps);
                 if($bool === null){ $bool = true; }
 
                 if($bool === false){
@@ -213,6 +233,7 @@ class UserController extends AbstractController {
         }
         
         return $this->render('app/account/add_apps.html.twig', array(
+            'remainingApps' => $remainingApps,
 			'form' => $form->createView()
         ));
     }
