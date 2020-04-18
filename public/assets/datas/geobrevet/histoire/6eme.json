@@ -1,0 +1,18 @@
+{
+    "icone": "culture",
+    "discipline": "Histoire",
+    "niveau": "6ème",
+    "title": "Repères historiques niveau 6ème",
+    "reperes": [
+            {
+                "date": "IIIème millénaire avant JC",
+                "evenement": "Premières civilisations",
+                "details": "Apparition des premières civilisations en Mésopotamie et en Égypte, dans larégion du \"croissant fertile\". Elles se caractérisent par   l'utilisation de l'écriture, l'existence d'un État et de croyances polythéistes."
+            }
+    ],
+    "frise": {
+        "legende": "Frise chronologique des repères historiques en 6ème",
+        "image": "assets/images/apps/geobrevet/histoire-6eme.png",
+        "date": "2020"
+    }
+}

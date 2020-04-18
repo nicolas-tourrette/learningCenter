@@ -43,3 +43,8 @@ services:
         class: App\Service\LoggedUser
         tags:
             - { name: kernel.event_listener, event: security.interactive_login }
+
+    jsonparser:
+        class: App\Service\JsonParser
+        arguments:
+            - "@jsonFile"

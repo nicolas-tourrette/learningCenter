@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
+use App\Service\JsonParser as Json;
+
 class MainController extends AbstractController {
     
     /**
@@ -34,17 +36,20 @@ class MainController extends AbstractController {
     /**
     * @Route("/apps/{name}", name="appDetails")
     */
-    public function appDetails($name){
+    public function appDetails(Request $request, $name){
         $em = $this->getDoctrine()->getManager();
         $appDetails = $em->getRepository("App:App")->findOneByAppCode($name);
 
         if($appDetails == null){
-            throw new NotFoundHttpException("Cette application n'existe pas.");
+            throw new NotFoundHttpException("Error code #2000 — Application inconnue.");
         }
+        
+        $json = new Json("assets/datas/".$name."/versions.json");
 
+        $request->getSession()->getFlashBag()->add('warning', "TODO");
         return $this->render('app/aboutapp.html.twig', array(
             'appDetails' => $appDetails,
-            'listVersions' => $this->getVersions("assets/datas/".$name."/versions.json")
+            'listVersions' => $json->parseJson()
         ));
     }
 
@@ -52,28 +57,22 @@ class MainController extends AbstractController {
      * @Route("/about/version", name="version")
      */
     public function version(){
+        $json = new Json("assets/versions.json");
+
         return $this->render('app/version.html.twig', array(
-            'listVersions' => $this->getVersions("assets/versions.json")
+            'listVersions' => $json->parseJson()
         ));
     }
 
     public function getLastVersion(){
-        $jsonFile = "assets/versions.json";
-        if(file_exists($jsonFile)){
-            $json = file_get_contents($jsonFile, false);
-            $jsonDatas = json_decode($json, true);
+        $json = new Json("assets/versions.json");
 
-            return $this->render('app/foot-version.html.twig', array(
-                'lastVersion' => $jsonDatas[0]
-            ));
-        }
-
-        return $this->render('app/version.html.twig', array(
-            'lastVersion' => null
+        return $this->render('app/foot-version.html.twig', array(
+            'lastVersion' => $json->parseJson()[0]
         ));
     }
 
-    public function getVersions($jsonFile){
+    /*public function getVersions($jsonFile){
         if(file_exists($jsonFile)){
             $json = file_get_contents($jsonFile, false);
             $jsonDatas = json_decode($json, true);
@@ -81,5 +80,5 @@ class MainController extends AbstractController {
             return $jsonDatas;
         }
         return null;
-    }
+    }*/
 }

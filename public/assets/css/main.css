@@ -700,7 +700,8 @@ mark,
 }
 .figure-img {
  margin-bottom:.5rem;
- line-height:1
+ line-height:1;
+ width: 100%
 }
 .figure-caption {
  font-size:90%;

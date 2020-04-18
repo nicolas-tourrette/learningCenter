@@ -62,7 +62,7 @@ class SecurityController extends AbstractController
 	 */
 	public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder){
 		if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-			throw new AccessDeniedException('Vous êtes déjà un utilisateur authentifié.');
+			throw new AccessDeniedHttpException('Vous êtes déjà un utilisateur authentifié.');
 		}
 
 		$em = $this->getDoctrine()->getManager();

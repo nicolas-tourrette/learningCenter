@@ -12,7 +12,7 @@
         {% endblock %}
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
-    <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+    <meta name="description" content="LearnApp - Apprentissage en ligne">
     <meta name="msapplication-tap-highlight" content="no">
     <!--
     =========================================================
@@ -26,13 +26,12 @@
     -->
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cantora+One" rel="stylesheet">
-    <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
     <link href="{{ asset('assets/images/favicon.png') }}" rel="icon">
     {% block css %}
     {% endblock %}
 </head>
 <body>
-    <div class="app-container app-theme-white fixed-sidebar fixed-header fixed-footer body-tabs-line">
+    <div class="app-container app-theme-white body-tabs-line fixed-header fixed-footer fixed-sidebar">
         <div class="app-header header-shadow bg-primary header-text-light">
             <div class="app-header__logo">
                 <div class="logo-src" style="font-family: 'Cantora One', Tahoma, Geneva, Verdana, sans-serif; color: #ffffff; font-size: 22px; font-weight: bold; margin-bottom: 10px;">LearnApp</div>
@@ -59,7 +58,7 @@
                 <span>
                     <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
                         <span class="btn-icon-wrapper">
-                            <i class="fa fa-ellipsis-v fa-w-6"></i>
+                            <i class="fas fa-ellipsis-v"></i>
                         </span>
                     </button>
                 </span>
@@ -182,7 +181,7 @@
                         <span>
                             <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
                                 <span class="btn-icon-wrapper">
-                                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+                                    <i class="fas fa-ellipsis-v"></i>
                                 </span>
                             </button>
                         </span>
@@ -428,7 +427,7 @@
                                                     Plus simple, plus flexible, plus accessible, c'est la nouveauté de cette plateforme LearnApp !
                                                 </p>
                                             </div>
-                                            <img src="assets/images/favicon.png" class="img-thumbnail align-self-start ml-3" alt="LearnApp" width="140px">
+                                            <img src="{{ asset('assets/images/favicon.png') }}" class="img-thumbnail align-self-start ml-3" alt="LearnApp" width="140px">
                                         </div>
                                         <h2 class="text-primary">
                                             Pour les établissements scolaires
@@ -479,6 +478,7 @@
         {% block javascript %}
         <script type="text/javascript" src="{{ asset('assets/scripts/main.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/scripts/navigation.js') }}"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
         {% endblock %}
     </body>
 </html>

@@ -12,9 +12,15 @@ console.log(pathLength);
 if (maPage == "" || maPage == "#") {
     idForItem = "index";
 }
+else if(maPage == "dashboard"){
+    idForItem = "my-" + CheminRepertoire[pathLength - 2];
+}
 else if (maPage != "" || maPage != "#") {
-    if(pathLength > 5){
-        idForItem = "my-";
+    if(maPage == "dashboard"){
+        idForItem = "my-" + CheminRepertoire[pathLength - 2] + "-" ;
+    }
+    else if(pathLength > 7){
+        idForItem = "my-" + CheminRepertoire[pathLength - 3] + "-";
     }
     idForItem += CheminRepertoire[pathLength - 1];
 }
@@ -26,6 +32,9 @@ if (maPage == "version" || CheminRepertoire[pathLength - 2] == "compte"){
 if (idForItem.indexOf("#") > 0) {
     idForItem = idForItem.substring(0, idForItem.indexOf("#"));
 }
+
+console.log(idForItem);
+
 item = document.getElementById(idForItem);
 
 if (item != null) {

@@ -1,0 +1,22 @@
+{# templates/app/app.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+{{ content.discipline}} {{ content.niveau }} - {{ appDetails.appName }} | {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-{{ content.icone }} icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        {{ content.title }}
+        <div class="page-title-subheading">
+            Application {{ appDetails.appName }} &mdash; Version {{ appDetails.appVersion }}
+        </div>
+    </div>
+</div>
+{% endblock %}

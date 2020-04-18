@@ -1,7 +1,7 @@
 {% if "geobrevet" in app.user.apps %}
 <li class="app-sidebar__heading">GéoBrevet</li>
 <li>
-    <a href="#">
+    <a href="{{ path('geobrevet_index') }}" id="my-geobrevet">
         <i class="metismenu-icon pe-7s-home"></i>
         Mon GéoBrevet
     </a>
@@ -21,25 +21,25 @@
             </a>
             <ul>
                 <li>
-                    <a href="#">
+                    <a href="{{ path('geobrevet_learn', {discipline: "histoire", content: "6eme"}) }}" id="my-geobrevet-6eme">
                         <i class="metismenu-icon">
                         </i>Niveau 6<sup>ème</sup>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ path('geobrevet_learn', {discipline: "histoire", content: "5eme"}) }}" id="my-geobrevet-5eme">
                         <i class="metismenu-icon">
                         </i>Niveau 5<sup>ème</sup>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ path('geobrevet_learn', {discipline: "histoire", content: "4eme"}) }}" id="my-geobrevet-4eme">
                         <i class="metismenu-icon">
                         </i>Niveau 4<sup>ème</sup>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ path('geobrevet_learn', {discipline: "histoire", content: "3eme"}) }}" id="my-geobrevet-3eme">
                         <i class="metismenu-icon">
                         </i>Niveau 3<sup>ème</sup>
                     </a>
@@ -54,7 +54,7 @@
             </a>
             <ul>
                 <li>
-                    <a href="#">
+                    <a href="#" id="my-geobrevet-">
                         <i class="metismenu-icon">
                         </i>Repères historiques (6<sup>ème</sup>-3<sup>ème</sup>)
                     </a>
