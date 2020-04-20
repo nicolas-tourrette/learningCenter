@@ -41,7 +41,8 @@ class MainController extends AbstractController {
         $appDetails = $em->getRepository("App:App")->findOneByAppCode($name);
 
         if($appDetails == null){
-            throw new NotFoundHttpException("Error code #2000 — Application inconnue.");
+            $json = new Json();
+            throw new NotFoundHttpException($json->throwErrorMessage("e3001"));
         }
         
         $json = new Json("assets/datas/".$name."/versions.json");
@@ -57,7 +58,7 @@ class MainController extends AbstractController {
      * @Route("/about/version", name="version")
      */
     public function version(){
-        $json = new Json("assets/versions.json");
+        $json = new Json("assets/datas/versions.json");
 
         return $this->render('app/version.html.twig', array(
             'listVersions' => $json->parseJson()
@@ -65,10 +66,10 @@ class MainController extends AbstractController {
     }
 
     public function getLastVersion(){
-        $json = new Json("assets/versions.json");
+        $json = new Json("assets/datas/versions.json");
 
         return $this->render('app/foot-version.html.twig', array(
-            'lastVersion' => $json->parseJson()[0]
+            'lastVersion' => $json->parseJsonFirst()
         ));
     }
 

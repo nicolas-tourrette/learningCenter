@@ -1,0 +1,55 @@
+{# templates/app/geobrevet/content-histoire.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+{{ content.title }} - {{ appDetails.appName }} | {{ parent() }}
+{% endblock %}
+
+{% block css %}
+<link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-hourglass icon-gradient bg-love-kiss">
+        </i>
+    </div>
+    <div class="page-title">
+        {{ content.title }}
+        <div class="page-title-subheading">
+            Test {{ content.test|upper }} &star; Version {{ content.version }} &mdash; Mis à jour le {{ content.revision }})<br>
+            Application {{ appDetails.appName }} &mdash; Version {{ appDetails.appVersion }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="mb-3 card">
+            <div class="card-header-tab card-header-tab-animation card-header">
+                <div class="card-header-title">
+                    {{ content.title }}
+                </div>
+            </div>
+            <div class="card-body">
+                Complétez les questions suivantes et cliquez sur valider :
+                <form class="questionnaire" method="post">
+                    <div class="form-group">
+                        {{ form_errors(form) }}
+                    </div>
+                    {{ form_rest(form) }}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Corriger le questionnaire</button>
+                        <button type="reset" class="btn btn-warning">Remettre à zéro le questionnaire</button>
+                        <a href="{{ path('geobrevet_index') }}" class="btn btn-danger">Annuler le questionnaire</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

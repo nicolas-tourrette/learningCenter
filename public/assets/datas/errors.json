@@ -1,0 +1,26 @@
+{
+    "e1000": {
+        "code": 1000,
+        "message": "Erreur inconnue."
+    },
+    "e1001": {
+        "code": 1001,
+        "message": "Fichier non trouvé."
+    },
+    "e2001": {
+        "code": 2001,
+        "message": "Historique des versions introuvable."
+    },
+    "e3001": {
+        "code": 3001,
+        "message": "Application inconnue."
+    },
+    "e3002": {
+        "code": 3002,
+        "message": "Contenu de l'application inacessible."
+    },
+    "e3003": {
+        "code": 3003,
+        "message": "Impossible de récupérer la correction."
+    }
+}

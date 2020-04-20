@@ -1,5 +1,5 @@
-{% if lastVersion is not null %}
+{% if lastVersion is iterable %}
 <a href="{{ path('version') }}">Version {{ lastVersion.number }}</a><br><small>Build {{ lastVersion.build }} - {{ lastVersion.date }}</small>
 {% else %}
-Error code #1001 &mdash; Historique des versions introuvable.
+{{ lastVersion }}
 {% endif %}

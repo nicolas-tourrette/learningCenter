@@ -13,7 +13,7 @@ div.form-group ul li::before {
     content: '❗ ';
 }
 
-.required::after{
+div.form-group > label.required::after{
     content: " *";
     color: red;
 }
@@ -27,4 +27,13 @@ div.form-group ul li::before {
     margin-right: 66px;
     padding-left: 22px;
     text-indent: -22px;
+}
+
+form.questionnaire > div > label.required::after{
+    content: " *";
+    color: red;
+}
+
+form.questionnaire  div.form-check {
+    margin-bottom: 15px;
 }

@@ -1,0 +1,26 @@
+{
+    "test": "11a",
+    "version": "0.1.0",
+    "revision": "20/04/2020",
+    "title": "Test des repères historiques du Brevet",
+    "niveau": "3ème",
+    "discipline": "Histoire",
+    "questions":[
+        {
+            "id": "11a1",
+            "question": "Apparition des premières écritures",
+            "reponses": [
+                {"a": "3500 avant Jésus-Christ"}, {"b": "333"}, {"c": "Rien"}
+            ],
+            "correction": "a"
+        },
+        {
+            "id": "11a2",
+            "question": "Apparition des premières écritures 2",
+            "reponses": [
+                {"a": "3500 avant Jésus-Christ"}, {"b": "333"}, {"c": "Rien"}
+            ],
+            "correction": "b"
+        }
+    ]
+}

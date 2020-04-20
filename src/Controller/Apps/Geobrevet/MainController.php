@@ -11,6 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
+use App\Entity\Test;
+
 use App\Service\JsonParser as Json;
 
 /**
@@ -35,14 +40,15 @@ class MainController extends AbstractController {
         $appDetails = $em->getRepository("App:App")->findOneByAppCode("geobrevet");
 
         if($appDetails == null){
-            throw new NotFoundHttpException("Error code #2000 — Application inconnue.");
+            $json = new Json();
+            throw new NotFoundHttpException($json->throwErrorMessage("e3001"));
         }
 
         $json = new Json("assets/datas/geobrevet/".$discipline."/".$content.".json");
         $content = $json->parseJson();
 
-        if($content == null){
-            throw new NotFoundHttpException("Error code #2001 — Contenu de l'application inacessible.");
+        if(is_string($content)){
+            throw new NotFoundHttpException($json->throwErrorMessage("e3002"));
         }
 
         return $this->render('app/geobrevet/content-'.$discipline.'.html.twig', array(
@@ -59,19 +65,91 @@ class MainController extends AbstractController {
         $appDetails = $em->getRepository("App:App")->findOneByAppCode("geobrevet");
 
         if($appDetails == null){
-            throw new NotFoundHttpException("Error code #2000 — Application inconnue.");
+            $json = new Json();
+            throw new NotFoundHttpException($json->throwErrorMessage("e3001"));
         }
 
-        $json = new Json("assets/datas/geobrevet/test/".$id.".json");
+        $variante = array("a");
+        $keyVariante = array_rand($variante, 1);
+
+        $json = new Json("assets/datas/geobrevet/test/".$id.$variante[$keyVariante].".json");
         $content = $json->parseJson();
 
-        if($content == null){
-            throw new NotFoundHttpException("Error code #2001 — Contenu de l'application inacessible.");
+        if(is_string($content)){
+            throw new NotFoundHttpException($json->throwErrorMessage("e3003"));
         }
 
-        return $this->render('app/geobrevet/test-'.$discipline.'.html.twig', array(
-            'appDetails' => $appDetails,
+        $form = $this->createFormBuilder();
+        $form->add('test', HiddenType::class, array(
+            'data' => $id.$variante[$keyVariante]
+        ));
+        
+        shuffle($content["questions"]);
+        foreach($content["questions"] as $question){
+            $choices = array();
+            for($i=0 ; $i<count($question["reponses"]); $i++) {
+                foreach($question["reponses"][$i] as $key => $value){
+                    $choice = array($value => $key);
+                    array_push($choices, $choice);
+                }
+            }
+            $form->add($question["id"],
+                ChoiceType::class,
+                array(
+                    'label' => $question["question"],
+                    'choices' => $choices,
+                    'expanded' => true,
+                    'multiple' => false,
+                    'required' => true,
+                    'choice_attr' => function($choice, $key, $value) {
+                        return ['class' => "form-check-input"];
+                    },
+                    'attr' => ['class' => "form-check"]
+                )
+            );
+        }
             
+        $form = $form->getForm();
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+			if($form->isSubmitted() && $form->isValid()) {
+                $testId = $form->getData()["test"];
+                $json = new Json("assets/datas/geobrevet/test/".$testId.".json");
+                $content = $json->parseJson();
+
+                if(is_string($content)){
+                    throw new NotFoundHttpException($json->throwErrorMessage("e3003"));
+                }
+
+                $points = 0;
+                $total = count($content["questions"]);
+
+                foreach($content["questions"] as $question){
+                    if($question["correction"] == $form->getData()[$question["id"]]){
+                        $points++;
+                    }
+                }
+                $score = $points/$total*100;
+
+                $test = new Test();
+                $test->setUser($this->getUser());
+                $test->setApp($appDetails);
+                $test->setScore($score);
+                $test->setTest($testId);
+
+                $em->persist($test);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('success', 'Votre résultat au test '.strtoupper($testId).' a été enregistré ! Votre score est de '.$score.' %.');
+                return $this->redirectToRoute('geobrevet_index');
+            }
+        }
+
+        return $this->render('app/geobrevet/test-'.$content["discipline"].'.html.twig', array(
+            'appDetails' => $appDetails,
+            'content' => $content,
+            'form' => $form->createView()
         ));
     }
 }

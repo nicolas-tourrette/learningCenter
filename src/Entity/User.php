@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -125,9 +127,15 @@ class User implements UserInterface
      */
     private $updated;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Test", mappedBy="user", orphanRemoval=true)
+     */
+    private $tests;
+
     public function __construct(){
         $this->isActive = true;
         $this->updated = new \DateTime();
+        $this->tests = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -420,6 +428,37 @@ class User implements UserInterface
     public function setUpdated(\DateTimeInterface $updated): self
     {
         $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Test[]
+     */
+    public function getTests(): Collection
+    {
+        return $this->tests;
+    }
+
+    public function addTest(Test $test): self
+    {
+        if (!$this->tests->contains($test)) {
+            $this->tests[] = $test;
+            $test->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTest(Test $test): self
+    {
+        if ($this->tests->contains($test)) {
+            $this->tests->removeElement($test);
+            // set the owning side to null (unless already changed)
+            if ($test->getUser() === $this) {
+                $test->setUser(null);
+            }
+        }
 
         return $this;
     }

@@ -38,7 +38,7 @@ Versions | {{ parent() }}
             </div>
             <div class="card-body">
                 <p>
-                    {% if listVersions is not null %}
+                    {% if listVersions is iterable %}
                     {% set compteur = 0 %}
                     {% for version in listVersions %}
                     <div class="version{% if compteur > 4 %} masked{% endif %}">
@@ -65,7 +65,7 @@ Versions | {{ parent() }}
                             class="fas fa-chevron-up"></i> &nbsp; Afficher moins</button>
                     {% endif %}
                     {% else %}
-                    Error code #1001 &mdash; Historique des versions introuvable.
+                    {{ listVersions }}
                     {% endif %}
                 </p>
             </div>

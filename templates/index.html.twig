@@ -478,7 +478,9 @@
         {% block javascript %}
         <script type="text/javascript" src="{{ asset('assets/scripts/main.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/scripts/navigation.js') }}"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
+        {# <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script> #}
+        <script type="text/javascript" src="{{ asset('assets/scripts/error.js') }}"></script>
         {% endblock %}
     </body>
 </html>
