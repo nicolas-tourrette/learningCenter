@@ -27,9 +27,36 @@ class MainController extends AbstractController {
      * @Route("/dashboard", name="geobrevet_index")
      */
     public function index(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
         
+        $testsHistoire = $em->getRepository("App:Test")->findTestByUserAndAppAndDiscipline($user, "geobrevet", "1");
+        $testsGeographie = $em->getRepository("App:Test")->findTestByUserAndAppAndDiscipline($user, "geobrevet", "2");
+
+        $histoire = $this->processResults($em, $user, $testsHistoire);
+        $geographie = $this->processResults($em, $user, $testsGeographie);
+
+        $json = new Json("assets/datas/geobrevet/infos.json");
+        $infos = $json->parseJson();
+
+        if(is_string($infos)){
+            throw new NotFoundHttpException($json->throwErrorMessage("e3002"));
+        }
+
         $request->getSession()->getFlashBag()->add('warning', "TODO");
-        return $this->render('app/about.html.twig');
+        return $this->render('app/geobrevet/dashboard.html.twig', array(
+            "histoire" => array(
+                'labels' => substr($histoire["labels"],0,-1)."]",
+                'datas' => $histoire["datas"],
+                'resultats' => $histoire["resultats"],
+            ),
+            "geographie" => array(
+                'labels' => substr($geographie["labels"],0,-1)."]",
+                'datas' => $geographie["datas"],
+                'resultats' => $geographie["resultats"],
+            ),
+            'infos' => $infos
+        ));
     }
 
     /**
@@ -151,5 +178,65 @@ class MainController extends AbstractController {
             'content' => $content,
             'form' => $form->createView()
         ));
+    }
+
+
+    private function processResults($em, $user, $tests){
+        $colors = array("#ff6384", "#36a2eb", "#cc65fe", "#ffce56");
+        $testsParsed = array();
+        $datas = "";
+        $datasDisplay = "[";
+
+        $max = 0;
+        for($i=0; $i < count($tests); $i++){
+            $testId = $tests[$i]->getTest();
+            $globalTestId = substr($testId,0,-1);
+            if(!in_array($globalTestId, $testsParsed)){
+                array_push($testsParsed, $globalTestId);
+                $scores = array();
+                $scroresDisplay = array();
+                $thisTestScores = $em->getRepository("App:Test")->findTestByUserAndTest($user, $globalTestId);
+                foreach($thisTestScores as $test){
+                    $date = $test->getDate()->format("d/m/Y H:i:s");
+                    $score = $test->getScore();
+
+                    array_push($scores, $score);
+
+                    $grade = "-";
+                    $class = "grade-none";
+                    if($score >= 90){ $grade = "A"; $class = "grade-a"; }
+                    elseif($score >= 75 && $score < 90){ $grade = "B"; $class = "grade-b"; }
+                    elseif($score >= 60 && $score < 75){ $grade = "C"; $class = "grade-c"; }
+                    elseif($score >= 40 && $score < 60){ $grade = "D"; $class = "grade-d"; }
+                    elseif($score >= 25 && $score < 40){ $grade = "E"; $class = "grade-e"; }
+                    elseif($score < 25){ $grade = "F"; $class = "grade-f"; }
+
+                    $resultat = array("date" => $date, "result" => array("score" => $score, "grade" => $grade, "class" => $class));
+                    array_push($scroresDisplay, $resultat);
+                }
+                if(count($scores) > $max){
+                    $max = count($scores);
+                }
+                
+                $color = array_rand($colors);
+                
+                $datas .= json_encode(array("label" => "Test ".$globalTestId, "borderColor" => $colors[$color], "data" => $scores)).",";
+                $datasDisplay .= json_encode(array("test" => "Test ".$globalTestId, "resultats" => $scroresDisplay)).",";
+                unset($colors[$color]);
+            }
+        }
+        $datas = substr($datas,0,-1);
+        $datasDisplay = substr($datasDisplay,0,-1)."]";
+        $resultats = json_decode($datasDisplay, true);
+        if($resultats != null){
+            sort($resultats);
+        }
+        
+        $labels = "[";
+        for($i=1; $i <= $max; $i++){
+            $labels .= $i.",";
+        }
+
+        return array("labels" => $labels, "datas" => $datas, "resultats" => $resultats);
     }
 }

@@ -36,15 +36,34 @@ class TestRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Test
+    
+    public function findTestByUserAndAppAndDiscipline($user, $app, $discipline)
     {
         return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('t.user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('t.app = :app')
+            ->setParameter('app', $app)
+            ->andWhere('t.test LIKE :discipline')
+            ->setParameter('discipline', $discipline.'__')
+            ->orderBy('t.date', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
+
+    public function findTestByUserAndTest($user, $test)
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.user = :user')
+            ->setParameter('user', $user)
+            ->andWhere('t.test LIKE :test')
+            ->setParameter('test', $test.'_')
+            ->orderBy('t.date', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -1,0 +1,272 @@
+{# templates/app/geobrevet/dashboard.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+Mon GéoBrevet | {{ parent() }}
+{% endblock %}
+
+{% block css %}
+<link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
+<link href="{{ asset('assets/css/grading.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-box2 icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        Mon GéoBrevet
+        <div class="page-title-subheading">
+            Bienvenue dans votre tableau de bord GéoBrevet. Ici, retrouvez vos derniers résultats et les informations essentielles sur GéoBrevet. 
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                <div class="card-header-title">
+                    Informations GéoBrevet
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="scroll-area-md">
+                    <div class="scrollbar-container ps--active-y">
+                        {% if infos is empty %}
+                        <p><i class="pe-7s-info" style="font-size: large;"></i> Il n'y aucune info ici. Repassez plus
+                            tard...</p>
+                        {% else %}
+                        <ul class="list-group">
+                            {% for info in infos %}
+                            <li class="list-group-item">
+                                <h5 class="list-group-item-heading text-primary font-weight-bold">
+                                    {{ info.title }}
+                                </h5>
+                                <p class="list-group-item-text font-weight-bold">
+                                    {{ info.date }}
+                                </p>
+                                <p class="list-group-item-text">
+                                    {{ info.content }}
+                                </p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                <div class="card-header-title">
+                    Vos résultats en histoire
+                </div>
+            </div>
+            <div class="card-body">
+                {% if histoire.datas is empty %}
+                    Faites d'abord un test avant de visualiser ici son résultat.
+                {% else %}
+                    <div class="chart-container">
+                        <canvas id="histoireTests"></canvas>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                <div class="card-header-title">
+                    Vos résultats en géographie
+                </div>
+            </div>
+            <div class="card-body">
+                {% if geographie.datas is empty %}
+                    Faites d'abord un test avant de visualiser ici son résultat.
+                {% else %}
+                    <div class="chart-container">
+                        <canvas id="geographieTests"></canvas>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                <div class="card-header-title">
+                    Le détail de mes dix derniers résultats en histoire
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="scroll-area-md">
+                    <div class="scrollbar-container ps--active-y">
+                        {% if histoire.resultats is empty %}
+                        Faites d'abord un test avant de visualiser ici son résultat.
+                        {% else %}
+                            <ul class="list-group list-group-flush">
+                                {% for resultat in histoire.resultats %}
+                                <li class="list-group-item">
+                                    <div class="widget-content p-0">
+                                        <div class="widget-content-outer">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading">
+                                                        <h4 class="list-group-item-heading">
+                                                            Résultat du <span class="text-primary">{{ resultat.test|lower }}</span>
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group">
+                                            {% for item in resultat.resultats %}
+                                                <li class="list-group-item-grade">
+                                                    <div class="widget-content-wrapper">
+                                                        <div class="widget-content-left">
+                                                            <div class="widget-heading">{{ item.date }}</div>
+                                                            <div class="list-group-item-text">Score : {{ item.result.score }}</div>
+                                                        </div>
+                                                        <div class="widget-content-right">
+                                                            <div class="widget-numbers {{ item.result.class }}">{{ item.result.grade }}</div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                <div class="card-header-title">
+                    Le détail de mes dix derniers résultats en géographie
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="scroll-area-md">
+                    <div class="scrollbar-container ps--active-y">
+                        {% if geographie.resultats is empty %}
+                        Faites d'abord un test avant de visualiser ici son résultat.
+                        {% else %}
+                            <ul class="list-group list-group-flush">
+                                {% for resultat in geographie.resultats %}
+                                <li class="list-group-item">
+                                    <div class="widget-content p-0">
+                                        <div class="widget-content-outer">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading">
+                                                        <h4 class="list-group-item-heading">
+                                                            Résultat du <span class="text-primary">{{ resultat.test|lower }}</span>
+                                                        </h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ul class="list-group">
+                                            {% for item in resultat.resultats %}
+                                                <li class="list-group-item-grade">
+                                                    <div class="widget-content-wrapper">
+                                                        <div class="widget-content-left">
+                                                            <div class="widget-heading">{{ item.date }}</div>
+                                                            <div class="list-group-item-text">Score : {{ item.result.score }}</div>
+                                                        </div>
+                                                        <div class="widget-content-right">
+                                                            <div class="widget-numbers {{ item.result.class }}">{{ item.result.grade }}</div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+{% if histoire.datas is not empty or geographie.datas is not empty %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+{% endif %}
+{% if histoire.datas is not empty %}
+<script>
+    let chartHistoire = document.getElementById('histoireTests').getContext('2d');
+    let theChartHistoire = new Chart(chartHistoire, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: {{ histoire.labels|raw }},
+            datasets: [{{ histoire.datas|raw }}]
+        },
+        // Configuration options go here
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        max: 100,
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+</script>
+{% endif %}
+{% if geographie.datas is not empty %}
+<script>
+    let chartGeographie = document.getElementById('geographieTests').getContext('2d');
+    let theChartGeographie = new Chart(chartGeographie, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: {{ geographie.labels|raw }},
+            datasets: [{{ geographie.datas|raw }}]
+        },
+    // Configuration options go here
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    max: 100,
+                    min: 0
+                }
+            }]
+        }
+    }
+    });
+</script>
+{% endif %}
+{% endblock %}

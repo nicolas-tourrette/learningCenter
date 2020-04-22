@@ -1,0 +1,45 @@
+.grade-none {
+    color: #6c757d;
+}
+
+.grade-a {
+    color: #28a745;
+}
+
+.grade-b {
+    color: #c6c920;
+}
+
+.grade-c {
+    color: #ffc107;
+}
+
+.grade-d {
+    color: #fd7e14;
+}
+
+.grade-e {
+    color: #fd4314;
+}
+
+.grade-f {
+    color: #d40707;
+}
+
+.list-group-item-grade {
+ position:relative;
+ display:block;
+ padding:.75rem 1.25rem;
+ margin-bottom:-1px;
+ background-color:#fff;
+ border:1px solid rgba(0,0,0,0.125);
+}
+.list-group-item-grade:first-child {
+ border-top-left-radius:.25rem;
+ border-top-right-radius:.25rem
+}
+.list-group-item-grade:last-child {
+ margin-bottom:0;
+ border-bottom-right-radius:.25rem;
+ border-bottom-left-radius:.25rem
+}

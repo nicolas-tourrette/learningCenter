@@ -8,7 +8,7 @@ class JsonParser
 {
 
     private $jsonFile;
-    private $jsonErrors = "/assets/datas/errors.json";
+    private $jsonErrors = "assets/datas/errors.json";
 
     public function __construct(?String $jsonFile)
     {
@@ -33,6 +33,7 @@ class JsonParser
     }
 
     public function throwErrorMessage(String $error){
+        dump($this->jsonErrors);
         if(file_exists($this->jsonErrors)){
             $json = file_get_contents($this->jsonErrors, false);
             $errors = json_decode($json, true);
