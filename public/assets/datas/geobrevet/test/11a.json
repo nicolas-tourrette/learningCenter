@@ -2,6 +2,7 @@
     "test": "11a",
     "version": "0.1.0",
     "revision": "20/04/2020",
+    "duree": 30,
     "title": "Test des repères historiques du Brevet",
     "niveau": "3ème",
     "discipline": "histoire",

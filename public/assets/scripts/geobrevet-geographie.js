@@ -24,7 +24,6 @@ function actJson(content) {
     try {
         json = JSON.parse(content);
         questions = json["questions"];
-        console.log("Résultat :", questions);
         for (let i = 0; i < questions.length; ++i) {
             affecterRessource(questions[i].id, questions[i].image);
         }

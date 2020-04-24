@@ -191,7 +191,7 @@ class MainController extends AbstractController {
                 array_push($testsParsed, $globalTestId);
                 $scores = array();
                 $scroresDisplay = array();
-                $thisTestScores = $em->getRepository("App:Test")->findTestByUserAndTest($user, $globalTestId);
+                $thisTestScores = array_reverse($em->getRepository("App:Test")->findTestByUserAndTest($user, $globalTestId));
                 foreach($thisTestScores as $test){
                     $date = $test->getDate()->format("d/m/Y H:i:s");
                     $score = $test->getScore();

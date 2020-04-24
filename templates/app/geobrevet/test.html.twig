@@ -34,6 +34,9 @@
                 <div class="card-header-title">
                     {{ content.title }}
                 </div>
+                <div class="btn-actions-pane-right">
+                    Temps restant : <span id="counter"></span>
+                </div>
             </div>
             <div class="card-body">
                 Complétez les questions suivantes et cliquez sur valider :
@@ -57,8 +60,32 @@
 
 {% block javascript %}
     {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+    <script src="{{ asset('assets/scripts/timer.js') }}"></script>
+    <script> window.onload = function () { compteur = document.getElementById('counter'); startTimer({{ content.duree }}, compteur); };</script>
     {% if content.discipline == "geographie" %}
         <script type="text/javascript" src="{{ asset('assets/scripts/geobrevet-geographie.js') }}"></script>
         <script>readJsonFile("/assets/datas/geobrevet/test/{{ content.test }}.json", (content) => actJson(content));</script>
     {% endif %}
+{% endblock %}
+
+{% block modal %}
+<div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="smallmodalLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-warning">
+                <h5 class="modal-title text-white" id="smallmodalLabel">Temps restant faible !</h5>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Attention, il ne vous reste plus que <span id="time" class="text-danger font-weight-bold"></span> minutes avant la validation de vos réponses !
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Continuer</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
