@@ -1,22 +1,24 @@
 {
-    "test": "11a",
+    "test": "21a",
     "version": "0.1.0",
-    "revision": "20/04/2020",
-    "title": "Test des repères historiques du Brevet",
+    "revision": "24/04/2020",
+    "title": "Test des repères géographiques du Brevet",
     "niveau": "3ème",
-    "discipline": "histoire",
+    "discipline": "geographie",
     "questions":[
         {
-            "id": "11a1",
+            "id": "21a1",
             "question": "Apparition des premières écritures",
+            "image": "/assets/datas/geobrevet/geographie/test/21-1.png",
             "reponses": [
                 {"a": "3500 avant Jésus-Christ"}, {"b": "333"}, {"c": "Rien"}
             ],
             "correction": "a"
         },
         {
-            "id": "11a2",
+            "id": "21a2",
             "question": "Apparition des premières écritures 2",
+            "image": "",
             "reponses": [
                 {"a": "3500 avant Jésus-Christ"}, {"b": "333"}, {"c": "Rien"}
             ],

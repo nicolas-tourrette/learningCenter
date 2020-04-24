@@ -1,0 +1,17 @@
+{
+    "icone": "world",
+    "discipline": "Géographie",
+    "niveau": "3ème",
+    "title": "Les grandes aires urbaines françaises",
+    "carte": {
+        "ressource": "assets/images/apps/geobrevet/geographie/aires-urbaines-francaises.png",
+        "legende": "Les dix plus grandes aires urbaines françaises",
+        "date": "Avril 2020"
+    },
+    "explications": [
+        {
+            "titre": "Quelques chiffres",
+            "texte": "La métropole parisienne est la plus grande aire urbaine de France avec 12,57 millions d'habitants. Vient ensuite l'aire urbaine de Lyon avec 2,31 millions d'habitants. Ensuite, la troisième plus grande aire urbaine est celle de Marseille - Aix-en-Provence avec 1,76 millions d'habitants. Puis nous avons les aires urbaines de : <ul><li>Toulouse : 1,35 millions d'habitants</li><li>Bordeaux : 1,23 millions d'habitants</li><li>Lille : 1,19 millions d'habitants</li><li>Nice : 1 million d'habitants</li><li>Nantes : 961 000 habitants</li><li>Strasbourg : 786 000 habitants</li><li>Rennes : 727 000 habitants</li></ul><br><small>Source : INSEE, 2016.</small>"
+        }
+    ]
+}

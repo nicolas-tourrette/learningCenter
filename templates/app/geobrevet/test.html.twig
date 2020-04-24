@@ -1,4 +1,4 @@
-{# templates/app/geobrevet/test-histoire.html.twig #}
+{# templates/app/geobrevet/test.html.twig #}
 
 {% extends "index.html.twig" %}
 
@@ -38,6 +38,7 @@
             <div class="card-body">
                 Complétez les questions suivantes et cliquez sur valider :
                 <form class="questionnaire" method="post">
+                    {% form_theme form 'forms/geobrevet/test-'~content.discipline~'.html.twig' %}
                     <div class="form-group">
                         {{ form_errors(form) }}
                     </div>
@@ -52,4 +53,12 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    {% if content.discipline == "geographie" %}
+        <script type="text/javascript" src="{{ asset('assets/scripts/geobrevet-geographie.js') }}"></script>
+        <script>readJsonFile("/assets/datas/geobrevet/test/{{ content.test }}.json", (content) => actJson(content));</script>
+    {% endif %}
 {% endblock %}

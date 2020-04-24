@@ -41,6 +41,8 @@ Mon GéoBrevet | {{ parent() }}
                         {% if infos is empty %}
                         <p><i class="pe-7s-info" style="font-size: large;"></i> Il n'y aucune info ici. Repassez plus
                             tard...</p>
+                        {% elseif infos is not iterable %}
+                            {{ infos }}
                         {% else %}
                         <ul class="list-group">
                             {% for info in infos %}

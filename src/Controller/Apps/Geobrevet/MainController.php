@@ -39,11 +39,6 @@ class MainController extends AbstractController {
         $json = new Json("assets/datas/geobrevet/infos.json");
         $infos = $json->parseJson();
 
-        if(is_string($infos)){
-            throw new NotFoundHttpException($json->throwErrorMessage("e3002"));
-        }
-
-        $request->getSession()->getFlashBag()->add('warning', "TODO");
         return $this->render('app/geobrevet/dashboard.html.twig', array(
             "histoire" => array(
                 'labels' => substr($histoire["labels"],0,-1)."]",
@@ -101,9 +96,14 @@ class MainController extends AbstractController {
 
         $json = new Json("assets/datas/geobrevet/test/".$id.$variante[$keyVariante].".json");
         $content = $json->parseJson();
-
+        
         if(is_string($content)){
-            throw new NotFoundHttpException($json->throwErrorMessage("e3003"));
+            if ($request->isMethod('POST')) {
+                throw new NotFoundHttpException($json->throwErrorMessage("e3004"));
+            }
+            else{
+                throw new NotFoundHttpException($json->throwErrorMessage("e3003"));
+            }
         }
 
         $form = $this->createFormBuilder();
@@ -127,11 +127,7 @@ class MainController extends AbstractController {
                     'choices' => $choices,
                     'expanded' => true,
                     'multiple' => false,
-                    'required' => true,
-                    'choice_attr' => function($choice, $key, $value) {
-                        return ['class' => "form-check-input"];
-                    },
-                    'attr' => ['class' => "form-check"]
+                    'required' => true
                 )
             );
         }
@@ -173,7 +169,7 @@ class MainController extends AbstractController {
             }
         }
 
-        return $this->render('app/geobrevet/test-'.$content["discipline"].'.html.twig', array(
+        return $this->render('app/geobrevet/test.html.twig', array(
             'appDetails' => $appDetails,
             'content' => $content,
             'form' => $form->createView()

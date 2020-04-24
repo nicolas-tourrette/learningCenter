@@ -18,8 +18,12 @@ class JsonParser
     public function parseJson(){
         if(file_exists($this->jsonFile)){
             $json = file_get_contents($this->jsonFile, false);
+            $datas = json_decode($json, true);
 
-            return json_decode($json, true);
+            if($datas == null){
+                throw new \ErrorException($this->throwErrorMessage("e1002"));
+            }
+            return $datas;
         }
         return $this->throwErrorMessage("e1001");
     }
@@ -33,15 +37,18 @@ class JsonParser
     }
 
     public function throwErrorMessage(String $error){
-        dump($this->jsonErrors);
         if(file_exists($this->jsonErrors)){
             $json = file_get_contents($this->jsonErrors, false);
             $errors = json_decode($json, true);
+
+            if($errors == null){
+                throw new \ErrorException("Error code #1002 — Erreur lors de la lecture de la ressource.");
+            }
 
             if(isset($errors[$error])){
                 return "Error code #".$errors[$error]["code"]." — ".$errors[$error]["message"];
             }
         }
-        return "Error code #1000 — Erreur inconnue.";
+        throw new \ErrorException("Error code #1000 — Erreur inconnue.");
     }
 }

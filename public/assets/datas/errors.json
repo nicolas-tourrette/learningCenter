@@ -7,6 +7,10 @@
         "code": 1001,
         "message": "Fichier non trouvé."
     },
+    "e1002": {
+        "code": 1002,
+        "message": "Erreur lors de la lecture de la ressource."
+    },
     "e2001": {
         "code": 2001,
         "message": "Historique des versions introuvable."
@@ -21,6 +25,10 @@
     },
     "e3003": {
         "code": 3003,
+        "message": "Impossible de récupérer les données du test."
+    },
+    "e3004": {
+        "code": 3004,
         "message": "Impossible de récupérer la correction."
     }
 }

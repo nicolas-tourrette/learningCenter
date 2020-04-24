@@ -1,0 +1,32 @@
+{# templates/app/geobrevet/content-geographie.html.twig #}
+
+{% extends "app/app.html.twig" %}
+
+{% block pageContent %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="mb-3 card">
+            <div class="card-header-tab card-header-tab-animation card-header">
+                <div class="card-header-title">
+                    {{ content.title }}
+                </div>
+            </div>
+            <div class="card-body">
+                <h2>Carte</h2>
+                <p class="text-center">
+                    <img class="mt-3 mb-3 figure-img" src="{{ asset(content.carte.ressource) }}"><br>
+                    {{ content.carte.legende|raw }}<br><span class="text-muted" style="font-size: x-small;">&copy; {{ content.carte.date }}
+                        LearnApp. Tous drois réservés.</span>
+                </p>
+                {% if content.explications is not empty %}
+                    <h2>Explications</h2>
+                    {% for explication in content.explications %}
+                        <h3>{{ explication.titre }}</h3>
+                        <p>{{ explication.texte|raw }}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
