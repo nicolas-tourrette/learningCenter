@@ -45,9 +45,12 @@ function startTimer(duration, display) {
     }, 1000);
 }
 
-document.getElementsByTagName("form")[0].addEventListener("submit", function () {
+function cancelTimer(){
     console.log("Removing timer...");
     runningTime = false;
     localStorage.setItem("timer", NaN);
     console.log(localStorage.getItem("timer"));
-});
+}
+
+document.getElementsByTagName("form")[0].addEventListener("submit", function () {cancelTimer()}, false);
+document.getElementById("cancelQuizz").addEventListener("click", function () {cancelTimer()}, false);

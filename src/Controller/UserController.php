@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -171,9 +172,8 @@ class UserController extends AbstractController {
                     'multiple' => true,
                     'choices' => $choices,
                     'choice_attr' => function($choice, $key, $value) {
-                        return ['class' => "form-check-input"];
-                    },
-                    'attr' => ['class' => "form-check"]
+                        return ['class' => "custom-control-input"];
+                    }
                 )
             )
             ->add('submit',
@@ -255,5 +255,57 @@ class UserController extends AbstractController {
 
         $request->getSession()->getFlashBag()->add('success', "L'application a été retirée avec succès de votre compte.");
         return $this->redirectToRoute('compte');
+    }
+
+    private function purgeInformations(){
+        $em = $this->getDoctrine()->getManager();
+
+        $date = new \Datetime("30 days ago");
+        $listInfos = $em->getRepository("App:Information")->getInformationsOlderThan($date);
+
+        foreach($listInfos as $info){
+            $em->remove($info);
+        }
+        $em->flush(); 
+    }
+
+    public function countInformations(){
+        $em = $this->getDoctrine()->getManager();
+        $this->purgeInformations();
+
+        $informations = $em->getRepository("App:Information")->findAll();
+
+        return new Response(count($informations));
+    }
+
+    /**
+     * @Route("/compte/informations/{page}", name="informations", requirements={"page" = "\d+"}, defaults={"page" = 1})
+     */
+    public function informations($page){
+        $nbPerPage = 1;
+        if ($page < 1) {
+            throw $this->createNotFoundException('Page "'.$page.'" inexistante.');
+        }
+        
+        $em = $this->getDoctrine()->getManager();
+        $informations = $em->getRepository("App:Information")->getInformations($page, $nbPerPage);
+
+        if(count($informations) == 0){
+            $informations = "Pas d'information disponible pour le moment. Repassez plus tard...";
+            $nbPages = 1;
+        }
+        else{
+            $nbPages = ceil(count($informations)/$nbPerPage);
+        }
+
+        if($page > $nbPages){
+            throw $this->createNotFoundException('Page "'.$page.'" inexistante.');
+        }
+
+        return $this->render('app/account/informations.html.twig', array(
+            'informations' => $informations,
+            'nbPages' => $nbPages,
+            'page' => $page
+        ));
     }
 }

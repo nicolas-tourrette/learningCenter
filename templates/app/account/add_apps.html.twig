@@ -40,6 +40,7 @@ Mon compte | {{ parent() }}
                     Veuillez compléter le formulaire suivant afin de mettre à jour votre compte LearnApp.
                 </p>
                 <form class="needs-validation" action="{{ path('addApps') }}" method="post">
+                    {% form_theme form 'forms/form-custom.html.twig' %}
                     <div class="form-group">
                         {{ form_errors(form) }}
                     </div>

@@ -1,0 +1,79 @@
+{# templates/app/about.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+Informations | {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-info icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        Versions
+        <div class="page-title-subheading">
+            Voici l'historique des versions de la plateforme LearnApp. Vous trouverez l'ensemble des modifications apportées depuis le début de cette plateforme.<br>Si un bug devait être signalé, merci de le faire sur la page GitHub de notre plateforme en vous rendant <a href="https://github.com/nicolas-tourrette/learningCenter/issues" target="_blank"><i class="fab fa-github"></i> ici</a>. Si vous ne possédez pas un tel compte, envoyez un mail au support sur <a href="{{ path('support') }}#contactHelpTab">la page du Support</a>.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="mb-3 card">
+            <div class="card-header-tab card-header-tab-animation card-header">
+                <div class="card-header-title">
+                    Informations LearnApp
+                </div>
+            </div>
+            <div class="card-body">
+                {% if informations is not iterable %}
+                <p>{{ informations }}</p>
+                {% else %}
+                <ul class="list-group">
+                {% for info in informations %}
+                    <li class="list-group-item">
+                        <h5 class="list-group-item-heading text-primary font-weight-bold">
+                            {{ info.title }}
+                        </h5>
+                        <p class="list-group-item-text font-weight-bold">
+                            Publié le {{ info.date|date("d/m/Y") }} par {{ info.author }}
+                        </p>
+                        <p class="list-group-item-text">
+                            {{ info.content|raw|nl2br }}
+                        </p>
+                    </li>
+                {% endfor %}
+                </ul>
+                {% if nbPages > 0 %}
+                <ul class="pagination mt-3">
+                    {# On utilise la fonction range(a, b) qui crée un tableau de valeurs entre a et b #}
+                    <li class="page-item{% if page == 1 or page is not defined %} disabled{% endif %}">
+                        <a class="page-link" href="{{ path('informations', {'page': page - 1}) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% for p in range(1, nbPages) %}
+                    <li class="page-item{% if p == page %} active{% endif %}">
+                        <a class="page-link{% if p == page %} active{% endif %}" href="{{ path('informations', {'page': p}) }}">{{ p }}</a>
+                    </li>
+                    {% endfor %}
+                    <li class="page-item{% if page == nbPages %} disabled{% endif %}">
+                        <a class="page-link" href="{{ path('informations', {'page': page + 1}) }}" aria-label="Previous">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

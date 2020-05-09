@@ -9,17 +9,22 @@ if (maPage.indexOf("#") > 0) {
     maPage = maPage.substring(0, maPage.indexOf("#"));
 }
 
+regex = /[1-9]+/gmi;
+if (regex.test(maPage)) {
+    maPage = CheminRepertoire[pathLength - 2];
+}
+
 console.log(CheminRepertoire);
 console.log(maPage);
 console.log(pathLength);
 
-if (maPage == "" || maPage == "#") {
+if (maPage == "") {
     idForItem = "index";
 }
 else if(maPage == "dashboard"){
     idForItem = "my-" + CheminRepertoire[pathLength - 2];
 }
-else if (maPage != "" || maPage != "#") {
+else if (maPage != "") {
     if(maPage == "dashboard"){
         idForItem = "my-" + CheminRepertoire[pathLength - 2] + "-" ;
     }
@@ -31,6 +36,9 @@ else if (maPage != "" || maPage != "#") {
 
 if (maPage == "version" || CheminRepertoire[pathLength - 2] == "compte"){
     idForItem = CheminRepertoire[pathLength - 2];
+}
+else if (CheminRepertoire[4] == "compte"){
+    idForItem = CheminRepertoire[pathLength - 3];
 }
 
 if (idForItem.indexOf("#") > 0) {

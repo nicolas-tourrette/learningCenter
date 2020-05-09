@@ -1,0 +1,25 @@
+{# templates/forms/form-custom.html.twig #}
+
+{% use 'form_div_layout.html.twig' %}
+
+{% block form_errors %}
+    {{ parent() }}
+{% endblock form_errors %}
+
+{%- block choice_widget_expanded -%}
+<div class="position-relative form-group" {{ block('widget_container_attributes') }}>
+    <div>
+        {%- for child in form %}
+        <div class="custom-checkbox custom-control">
+            {{- form_widget(child) -}}
+            {{- form_label(child, null, {translation_domain: choice_translation_domain, label_attr: {class: 'custom-control-label'}}) -}}
+        </div>
+        {% endfor -%}
+    </div>
+</div>
+{%- endblock choice_widget_expanded -%}
+
+{%- block radio_widget -%}
+<input type="radio" {{ block('widget_attributes') }} class="custom-control-input" {% if value is defined %} value="{{ value }}"
+    {% endif %}{% if checked %} checked="checked" {% endif %}/>
+{%- endblock radio_widget -%}

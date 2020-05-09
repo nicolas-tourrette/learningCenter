@@ -111,7 +111,6 @@
                                                 <a href="{{ path('logout') }}" class="dropdown-item">Se déconnecter</a>
                                                 <div tabindex="-1" class="dropdown-divider"></div>
                                                 <h6 tabindex="-1" class="dropdown-header">Mes applications</h6>
-                                                <button type="button" tabindex="0" class="dropdown-item">Consultation</button>
                                                 <a href="{{ path('addApps') }}" class="dropdown-item">Souscrire</a>
                                             </div>
                                         {% else %}
@@ -285,12 +284,12 @@
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="javascript:void(0);" class="nav-link">
+                                                    <a href="{{ path('informations') }}" class="nav-link">
                                                         <i class="nav-link-icon pe-7s-info"></i>
                                                         <span>
                                                             Informations
                                                         </span>
-                                                        <div class="ml-auto badge badge-pill badge-alternate">5</div>
+                                                        <div class="ml-auto badge badge-pill badge-alternate">{{ render(controller ("App\\Controller\\UserController::countInformations")) }}</div>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
