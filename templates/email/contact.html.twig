@@ -1,0 +1,58 @@
+{# email/contact.html.twig #}
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Plateforme LearnApp - Contact du Support</title>
+    <link href="{{ absolute_url(asset('assets/css/main.css')) }}" rel="stylesheet">
+    <style>
+        body {
+            background: #d3d3d3;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+
+<body>
+</body>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="row p-5">
+                        <div class="col-md-6">
+                            <img src="{{ absolute_url(asset('assets/images/favicon.png')) }}" height="100px" class="rounded">
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <p class="font-weight-bold mb-1 text-right">LearnApp Support</p>
+                            <p class="text-right">Demande du {{ "now"|date("d/m/Y" )}}</p>
+                            <p class="text-right">Par {{ message.name }} ({{ message.function }}{% if message.school is not empty %} à {{ message.school }}{% endif %})</p>
+                        </div>
+                    </div>
+                    <div class="row p-5">
+                        <div class="col-md-12">
+                            <p class="mb-1">Object : <span class="font-weight-bold">{{ message.subject }}</span></p>
+                            <p class="mb-1">{{ message.message }}</p>
+                        </div>
+                    </div>
+                    <div class="row pt-5">
+                        <div class="col-md-12">
+                            <p class="text-center text-muted small">Ce message a été envoyé depuis <a href="{{ absolute_url(path('support')) }}#contactHelpTab">ce formulaire</a> par le client {{ client }}.<br>
+                                L'envoi du formulaire s'est effectué suite à l'acceptation des clauses de traitement des données par LearnApp dans le cadre du Règlement (UE) 2016/679 relatif à la protection des données à caractère personnel (RGPD).
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3 text-center small">&copy; 2020 Nicolas TOURRETTE. Tous droits réservés.<br>Plateforme LearnApp &mdash; Apprentissage en ligne<br><img src="{{ absolute_url(asset('assets/images/logo-white.png')) }}" class="text-center mt-3" height="100px"></div>
+</div>
+
+</html>

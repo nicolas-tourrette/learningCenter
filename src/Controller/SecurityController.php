@@ -17,6 +17,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Mailer\MailerInterface;
@@ -112,11 +113,20 @@ class SecurityController extends AbstractController
         $form = $this->createFormBuilder()
             ->add('email', EmailType::class, [
                 'label' => "Adresse e-mail",
+                'required' => true,
+                'attr' => ["placeholder" => "prenom.nom@fournisseur.fr", 'class' => "form-control"],
                 'constraints' => [
                     new Email(),
                     new NotBlank()
                 ]
             ])
+            ->add('submit',
+                SubmitType::class,
+                array(
+                    'label' => "Valider la demande",
+                    'attr' => ['class' => "btn btn-primary"]
+                )
+            )
 			->getForm();
 			
         $form->handleRequest($request);
@@ -148,27 +158,28 @@ class SecurityController extends AbstractController
             $message = new TemplatedEmail();
 
 			$message
-				->from(new Address('esirem@nicolas-t.ovh', 'Annales ESIREM'))
+				->from(new Address('noreply@learnapp.nicolas-t.ovh', 'Plateforme LearnApp'))
 				->to(new Address($user->getEmail(), $user->getName()))
 				//->cc('cc@example.com')
-				->bcc(new Address('postmaster@nicolas-t.ovh', 'Administrateur Annales ESIREM'))
-				->replyTo(new Address('postmaster@nicolas-t.ovh', 'No-Reply Annales ESIREM'))
+				->bcc(new Address('postmaster@nicolas-t.ovh', 'Administrateur Plateforme LearnApp'))
+				->replyTo(new Address('postmaster@nicolas-t.ovh', 'No-Reply Plateforme LearnApp'))
 				//->priority(Email::PRIORITY_HIGH)
-				->subject('Perte de votre mot de passe Annales ESIREM')
+				->subject('Perte de votre mot de passe LearnApp')
 				->htmlTemplate('email/lost_password.html.twig')
 				->context(array(
-					'user' => $user
+					'user' => $user,
+                    'client' => $this->getIp()
 				))
 			;
-
-			$mailer->send($message);
+           
+            $mailer->send($message);
 
             $request->getSession()->getFlashBag()->add('success', "Un mail va vous être envoyé afin que vous puissiez renouveller votre mot de passe. Le lien que vous recevrez sera valide 24h.");
 
             return $this->redirectToRoute("index");
         }
 
-        return $this->render('Security/lost_password_request.html.twig', [
+        return $this->render('security/lost_password_request.html.twig', [
             'form' => $form->createView()
         ]);
 	}
@@ -191,7 +202,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/forgottenpass/{id}/{token}", name="resettingPassword")
+     * @Route("/forgottenpass/{username}/{token}", name="resettingPassword")
      */
     public function resettingPassword(User $user, $token, Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
@@ -221,9 +232,16 @@ class SecurityController extends AbstractController
                     'invalid_message' => 'Les  mots de passe doivent correspondre.',
                     'first_options'  => ['label' => 'Mot de passe'],
                     'second_options' => ['label' => 'Confirmer le mot de passe'],
-                    'attr' => [ 'class' => "au-input au-input--full" ]
+                    'attr' => [ 'class' => "form-control" ]
                 )
 
+            )
+            ->add('submit',
+                SubmitType::class,
+                array(
+                    'label' => "Valider le changement",
+                    'attr' => ['class' => "btn btn-primary"]
+                )
             )
 			->getForm();
 
@@ -259,4 +277,18 @@ class SecurityController extends AbstractController
         ]);
         
     }
+
+    private function getIp(){
+        if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        }
+        elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        else{
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
+    }
+
 }

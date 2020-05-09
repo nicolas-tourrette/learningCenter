@@ -178,3 +178,14 @@
 </div>
 
 {% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Détecte le hash dans l'url, l'utilise pour sélectionner le lien correspondant, déclenche le clique
+        $('a[href="' + window.location.hash + '"]')[0].click();
+    });
+</script>
+{% endblock %}

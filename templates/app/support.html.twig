@@ -1,0 +1,312 @@
+{# templates/app/support.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+Support LearnApp | {{ parent() }}
+{% endblock %}
+
+{% block css %}
+<script src="{{ asset('assets/scripts/encryptm.js') }}"></script>
+<link href="{{ asset('assets/css/form.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-help2 icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        Support
+        <div class="page-title-subheading">
+            Bienvenue sur la page du Support. Ici, vous avez accès aux différentes questions les plus posées et des éléments de réponses à vos questions. Si vous désirez signaler un bug, nous vous invitons à créer un ticket sur la page GitHub de notre plateforme en vous rendant <a href="https://github.com/nicolas-tourrette/learningCenter/issues" target="_blank"><i class="fab fa-github"></i> ici</a>. Si vous ne possédez pas un tel compte, envoyez un mail au support sur <a href="javascript:void(0);" onclick="location.href='#contactHelpTab'; location.reload();">l'onglet dédié</a>.
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+<ul class="body-tabs body-tabs-layout tabs-animated body-tabs-animated nav">
+    <li class="nav-item">
+        <a role="tab" class="nav-link active" id="tab-0" data-toggle="tab" href="#generalHelpTab">
+            <span>Aide générale</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a role="tab" class="nav-link" id="tab-1" data-toggle="tab" href="#teacherHelpTab">
+            <span>Aide enseignant</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a role="tab" class="nav-link" id="tab-2" data-toggle="tab" href="#schoolHelpTab">
+            <span>Aide établissement scolaire</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a role="tab" class="nav-link" id="tab-3" data-toggle="tab" href="#contactHelpTab">
+            <span>Contacter le Support</span>
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane tabs-animation fade show active" id="generalHelpTab" role="tabpanel">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3 card">
+                    <div class="card-header-tab card-header-tab-animation card-header">
+                        <div class="card-header-title">
+                            Aide générale
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Vous êtes dans la section d'aide générale de LearnApp. Ici sont répertoriées les questions génériques sur la gestion du compte, sur les plans et les applications. Si  d'autres questions ne sont pas répertoriées dans cette section, vous pouvez la poser à notre Support qui répondra dans les meilleurs délais et l'ajoutera ici.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="accordion" class="accordion-wrapper mb-3">
+                    <div class="card">
+                        <div id="headingOne" class="card-header">
+                            <button type="button" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne" class="text-left m-0 p-0 btn btn-link btn-block">
+                                <h5 class="m-0 p-0">Collapsible Group Item #1</h5>
+                            </button>
+                        </div>
+                        <div data-parent="#accordion" id="collapseOne1" aria-labelledby="headingOne" class="collapse show">
+                            <div class="card-body">
+                                ccc
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div id="headingTwo" class="b-radius-0 card-header">
+                            <button type="button" data-toggle="collapse" data-target="#collapseOne2" aria-expanded="false" aria-controls="collapseTwo" class="text-left m-0 p-0 btn btn-link btn-block collapsed">
+                                <h5 class="m-0 p-0">Collapsible Group Item #2</h5>
+                            </button>
+                        </div>
+                        <div data-parent="#accordion" id="collapseOne2" class="collapse">
+                            <div class="card-body">
+                                ddd
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div id="headingThree" class="card-header">
+                            <button type="button" data-toggle="collapse" data-target="#collapseOne3" aria-expanded="false" aria-controls="collapseThree" class="text-left m-0 p-0 btn btn-link btn-block">
+                                <h5 class="m-0 p-0">Collapsible Group Item #3</h5>
+                            </button>
+                        </div>
+                        <div data-parent="#accordion" id="collapseOne3" class="collapse">
+                            <div class="card-body">
+                                fff
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane tabs-animation fade" id="teacherHelpTab" role="tabpanel">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3 card">
+                    <div class="card-header-tab card-header-tab-animation card-header">
+                        <div class="card-header-title">
+                            Aide enseignant
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Vous êtes dans la section d'aide dédiée aux enseignants qui utilisent LearnApp. Ici sont répertoriées les questions spécifiques qu'ils peuvent rencontrer dans l'utilisation de LearnApp pour leurs cours. Si d'autres questions ne sont pas répertoriées dans cette section, vous pouvez la poser à notre Support qui répondra dans les meilleurs délais et l'ajoutera ici.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="accordion" class="accordion-wrapper mb-3">
+                    <div class="card">
+                        <div id="headingOne" class="card-header">
+                            <button type="button" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne" class="text-left m-0 p-0 btn btn-link btn-block">
+                                <h5 class="m-0 p-0">Collapsible Group Item #1</h5>
+                            </button>
+                        </div>
+                        <div data-parent="#accordion" id="collapseOne1" aria-labelledby="headingOne" class="collapse show">
+                            <div class="card-body">
+                                ccc
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div id="headingTwo" class="b-radius-0 card-header">
+                            <button type="button" data-toggle="collapse" data-target="#collapseOne2" aria-expanded="false" aria-controls="collapseTwo" class="text-left m-0 p-0 btn btn-link btn-block collapsed">
+                                <h5 class="m-0 p-0">Collapsible Group Item #2</h5>
+                            </button>
+                        </div>
+                        <div data-parent="#accordion" id="collapseOne2" class="collapse">
+                            <div class="card-body">
+                                ddd
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div id="headingThree" class="card-header">
+                            <button type="button" data-toggle="collapse" data-target="#collapseOne3" aria-expanded="false" aria-controls="collapseThree" class="text-left m-0 p-0 btn btn-link btn-block">
+                                <h5 class="m-0 p-0">Collapsible Group Item #3</h5>
+                            </button>
+                        </div>
+                        <div data-parent="#accordion" id="collapseOne3" class="collapse">
+                            <div class="card-body">
+                                fff
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane tabs-animation fade" id="schoolHelpTab" role="tabpanel">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3 card">
+                    <div class="card-header-tab card-header-tab-animation card-header">
+                        <div class="card-header-title">
+                            Aide établissement scolaire
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Vous êtes dans la section d'aide dédiée aux établissements scolaires qui utilisent LearnApp. Ici sont répertoriées les questions spécifiques qu'ils peuvent rencontrer dans l'utilisation de LearnApp pour leurs élèves et étudiants. Si d'autres questions ne sont pas répertoriées dans cette section, vous pouvez la poser à notre Support qui répondra dans les meilleurs délais et l'ajoutera ici.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="accordion" class="accordion-wrapper mb-3">
+                    <div class="card">
+                        <div id="headingOne" class="card-header">
+                            <button type="button" data-toggle="collapse" data-target="#collapseOne1" aria-expanded="true" aria-controls="collapseOne" class="text-left m-0 p-0 btn btn-link btn-block">
+                                <h5 class="m-0 p-0">Collapsible Group Item #1</h5>
+                            </button>
+                        </div>
+                        <div data-parent="#accordion" id="collapseOne1" aria-labelledby="headingOne" class="collapse show">
+                            <div class="card-body">
+                                ccc
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div id="headingTwo" class="b-radius-0 card-header">
+                            <button type="button" data-toggle="collapse" data-target="#collapseOne2" aria-expanded="false" aria-controls="collapseTwo" class="text-left m-0 p-0 btn btn-link btn-block collapsed">
+                                <h5 class="m-0 p-0">Collapsible Group Item #2</h5>
+                            </button>
+                        </div>
+                        <div data-parent="#accordion" id="collapseOne2" class="collapse">
+                            <div class="card-body">
+                                ddd
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div id="headingThree" class="card-header">
+                            <button type="button" data-toggle="collapse" data-target="#collapseOne3" aria-expanded="false" aria-controls="collapseThree" class="text-left m-0 p-0 btn btn-link btn-block">
+                                <h5 class="m-0 p-0">Collapsible Group Item #3</h5>
+                            </button>
+                        </div>
+                        <div data-parent="#accordion" id="collapseOne3" class="collapse">
+                            <div class="card-body">
+                                fff
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane tabs-animation fade" id="contactHelpTab" role="tabpanel">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mb-3 card">
+                    <div class="card-header-tab card-header-tab-animation card-header">
+                        <div class="card-header-title">
+                            Contacter le support
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ path('support') }}" method="post">
+                            <div class="form-group">
+                                {{ form_errors(form) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.name) }}
+                                {{ form_errors(form.name) }}
+                                {{ form_widget(form.name) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.email) }}
+                                {{ form_errors(form.email) }}
+                                {{ form_widget(form.email) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.function) }}
+                                {{ form_errors(form.function) }}
+                                {{ form_widget(form.function) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.school) }}
+                                {{ form_errors(form.school) }}
+                                {{ form_widget(form.school) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.subject) }}
+                                {{ form_errors(form.subject) }}
+                                {{ form_widget(form.subject) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(form.message) }}
+                                {{ form_errors(form.message) }}
+                                {{ form_widget(form.message) }}
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-checkbox custom-control">
+                                    <input class="custom-control-input" type="checkbox" value="" id="terms" required="">
+                                    <label class="custom-control-label" for="terms">
+                                        Les informations collectées sont à destination exclusive des services de LearnApp et seront conservées pendant le temps nécessaire au traitement de votre demande. Pour plus de détails sur le traitement de vos données personnelles, nous vous invitons à consulter notre politique de confidentialité. Conformément au Règlement (UE) 2016/679 relatif à la protection des données à caractère personnel (RGPD), vous disposez d’un droit d’accès, de rectification et/ou de suppression de vos données personnelles. Vous pouvez, pour des motifs tenant à votre situation particulière, vous opposer au traitement des données vous concernant. Pour exercer vos droits, ou pour toute autre question sur le traitement de vos données personnelles, nous vous invitons à nous contacter par le biais de ce formulaire. <span class="required"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_widget(form.submit) }}
+                            </div>
+                            {{ form_rest(form) }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+{{ parent() }}
+<script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Détecte le hash dans l'url, l'utilise pour sélectionner le lien correspondant, déclenche le clique
+        $('a[href="' + window.location.hash + '"]')[0].click();
+    });
+</script>
+{% endblock %}

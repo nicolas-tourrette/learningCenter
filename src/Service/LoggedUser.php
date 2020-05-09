@@ -25,7 +25,7 @@ class LoggedUser
 
         // Update your field here.
         $user->setLastLogin(new \DateTime());
-        $user->setLastIP($_SERVER['REMOTE_ADDR']);
+        $user->setLastIP($this->getIp());
 
         $paiement = $user->getPaiementType();
         $date = $user->getPaiementDate();
@@ -51,5 +51,18 @@ class LoggedUser
         // Persist the data to database.
         $this->em->persist($user);
         $this->em->flush();
+    }
+
+    private function getIp(){
+        if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        }
+        elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        else{
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        return $ip;
     }
 }

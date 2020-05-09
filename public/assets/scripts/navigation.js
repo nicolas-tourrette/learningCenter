@@ -5,6 +5,10 @@ let maPage = CheminRepertoire[pathLength - 1].replace(regex, "");
 let item;
 let idForItem = "";
 
+if (maPage.indexOf("#") > 0) {
+    maPage = maPage.substring(0, maPage.indexOf("#"));
+}
+
 console.log(CheminRepertoire);
 console.log(maPage);
 console.log(pathLength);
