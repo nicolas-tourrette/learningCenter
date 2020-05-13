@@ -282,7 +282,7 @@ class UserController extends AbstractController {
      * @Route("/compte/informations/{page}", name="informations", requirements={"page" = "\d+"}, defaults={"page" = 1})
      */
     public function informations($page){
-        $nbPerPage = 1;
+        $nbPerPage = 10;
         if ($page < 1) {
             throw $this->createNotFoundException('Page "'.$page.'" inexistante.');
         }
@@ -304,6 +304,45 @@ class UserController extends AbstractController {
 
         return $this->render('app/account/informations.html.twig', array(
             'informations' => $informations,
+            'nbPages' => $nbPages,
+            'page' => $page
+        ));
+    }
+
+    public function countNotifications(){
+        $em = $this->getDoctrine()->getManager();
+
+        $notifications = $em->getRepository("App:Notification")->findByRecipient($this->getUser());
+
+        return new Response(count($notifications));
+    }
+
+    /**
+     * @Route("/compte/notifications/{page}", name="notifications", requirements={"page" = "\d+"}, defaults={"page" = 1})
+     */
+    public function notifications($page){
+        $nbPerPage = 20;
+        if ($page < 1) {
+            throw $this->createNotFoundException('Page "'.$page.'" inexistante.');
+        }
+        
+        $em = $this->getDoctrine()->getManager();
+        $notifications = $em->getRepository("App:Notification")->getNotifications($this->getUser()->getId(), $page, $nbPerPage);
+
+        if(count($notifications) == 0){
+            $notifications = "Vous n'avez pas de notification.";
+            $nbPages = 1;
+        }
+        else{
+            $nbPages = ceil(count($notifications)/$nbPerPage);
+        }
+
+        if($page > $nbPages){
+            throw $this->createNotFoundException('Page "'.$page.'" inexistante.');
+        }
+
+        return $this->render('app/account/notifications.html.twig', array(
+            'notifications' => $notifications,
             'nbPages' => $nbPages,
             'page' => $page
         ));

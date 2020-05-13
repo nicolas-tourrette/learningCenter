@@ -27,6 +27,23 @@
     <link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cantora+One" rel="stylesheet">
     <link href="{{ asset('assets/images/favicon.png') }}" rel="icon">
+
+    {% if app.user.handicap is defined %}
+        {% if app.user.handicap %}
+            <style>
+                @font-face {
+                    font-family: "oda";
+                    src:    url("{{ asset('assets/fonts/OpenDyslexic-Regular.otf') }}") format("opentype"),
+                            url("{{ asset('assets/fonts/OpenDyslexic-Regular.eot') }}") format("eot"),
+                            url("{{ asset('assets/fonts/OpenDyslexic-Regular.woff') }}") format("woff"),
+                            url("{{ asset('assets/fonts/OpenDyslexic-Regular.woff2') }}") format("woff2");
+                    font-weight: 400;
+                    font-style: normal
+                }
+            </style>
+        {% endif %}
+    {% endif %}
+
     {% block css %}
     {% endblock %}
 </head>
@@ -275,12 +292,12 @@
                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                             <ul class="nav flex-column">
                                                 <li class="nav-item">
-                                                    <a href="javascript:void(0);" class="nav-link">
+                                                    <a href="{{ path('notifications') }}" class="nav-link">
                                                         <i class="nav-link-icon pe-7s-bell"></i>
                                                         <span>
                                                             Notifications
                                                         </span>
-                                                        <div class="ml-auto badge badge-pill badge-info">86</div>
+                                                        <div class="ml-auto badge badge-pill badge-info">{{ render(controller ("App\\Controller\\UserController::countNotifications")) }}</div>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
@@ -480,6 +497,17 @@
         <script type="text/javascript" src="{{ asset('assets/scripts/navigation.js') }}"></script>
         <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"></script>
         {% endblock %}
+
+        {% if app.user.handicap is defined %}
+            {% if app.user.handicap %}
+                <script>
+                    window.onload = function () {
+                        let body = document.body;
+                        body.style.fontFamily = 'oda, -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"';
+                    }
+                </script>
+            {% endif %}
+        {% endif %}
     </body>
 </html>
 

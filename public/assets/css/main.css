@@ -10053,7 +10053,7 @@ button,
  -webkit-background-clip:text;
  -webkit-text-fill-color:transparent;
  background-clip:text;
- text-fill-color:transparent
+ -webkit-text-fill-color:transparent
 }
 .font-size-xlg {
  font-size:1.3rem !important
@@ -10268,7 +10268,8 @@ Licensed under the MIT license - http://opensource.org/licenses/MIT
 Copyright (c) 2015 Daniel Eden
 */
 body {
- -webkit-backface-visibility:hidden
+    backface-visibility: hidden;
+    -webkit-backface-visibility:hidden
 }
 .animated {
  -webkit-animation-duration:calc( 1s);
@@ -13796,7 +13797,7 @@ legend {
 [class*=" pe-7s-"] {
  display:inline-block;
  font-family:'Pe-icon-7-stroke';
- speak:none;
+ /*speak:none;*/
  font-style:normal;
  font-weight:normal;
  font-variant:normal;

@@ -79,11 +79,11 @@ class SecurityController extends AbstractController
 					$user->getPassword()
                 ));
 
-                if($user->getRoles() === []){
+                if($user->getRoles() === [] || $user->getRoles() === array("ROLE_USER")){
                     $user->setRoles(array("ROLE_USER"));
                     $user->setPaiementStatus(true);
                     $user->setPaiementDate(new \DateTime());
-                    $user->setPaiementDateType("free");
+                    $user->setPaiementType("free");
                 }
 
                 $em->persist($user);

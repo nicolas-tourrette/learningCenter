@@ -63,7 +63,7 @@
     <script src="https://code.jquery.com/jquery-3.5.0.min.js"></script>
     <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
     <script src="{{ asset('assets/scripts/timer.js') }}"></script>
-    <script> window.onload = function () { compteur = document.getElementById('counter'); startTimer({{ content.duree }}, compteur); };</script>
+    <script> window.onload = function () { compteur = document.getElementById('counter'); startTimer({{ content.duree }}, compteur, {{ app.user.handicap }}); };</script>
     {% if content.discipline == "geographie" %}
         <script type="text/javascript" src="{{ asset('assets/scripts/geobrevet-geographie.js') }}"></script>
         <script>readJsonFile("/assets/datas/geobrevet/test/{{ content.test }}.json", (content) => actJson(content));</script>

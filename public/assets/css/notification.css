@@ -1,0 +1,72 @@
+.list-group-item-notification {
+    position:relative;
+    display:block;
+    padding:0rem 0rem;
+    margin-bottom:-1px;
+    background-color:#fff;
+    border:0px solid rgba(0,0,0,0.125)
+}
+.list-group-item-notification:first-child {
+    border-top-left-radius:.25rem;
+    border-top-right-radius:.25rem
+}
+.list-group-item-notification:last-child {
+    margin-bottom:0;
+    border-bottom-right-radius:.25rem;
+    border-bottom-left-radius:.25rem
+}
+.list-group-item-notification:hover,
+.list-group-item-notification:focus {
+    z-index:1;
+    text-decoration:none
+}
+
+#notification-container * {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#notification-container > div {
+    position:relative;
+    overflow:hidden;
+    margin:0 0 .6rem;
+    padding:.6rem .6rem .6rem 50px;
+    border-radius:.25rem;
+    background-position:15px center;
+    background-repeat:no-repeat;
+    box-shadow:0 0.46875rem 2.1875rem rgba(4,9,20,0.03),0 0.9375rem 1.40625rem rgba(4,9,20,0.03),0 0.25rem 0.53125rem rgba(4,9,20,0.05),0 0.125rem 0.1875rem rgba(4,9,20,0.03);
+    color:#fff;
+}
+
+.notification {
+    overflow:hidden;
+    font-size:.875rem;
+    background-color:rgba(255,255,255,0.85);
+    background-clip:padding-box;
+    border:1px solid rgba(0,0,0,0.1);
+    border-radius:.25rem;
+    box-shadow:0 0.25rem 0.75rem rgba(0,0,0,0.1);
+    backdrop-filter:blur(10px);
+}
+
+.notification-read {
+    opacity:0.5 !important
+}
+
+.notification-title {
+    font-weight:bold
+}
+
+#notification-container > .notification-success {
+    background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADsSURBVEhLY2AYBfQMgf///3P8+/evAIgvA/FsIF+BavYDDWMBGroaSMMBiE8VC7AZDrIFaMFnii3AZTjUgsUUWUDA8OdAH6iQbQEhw4HyGsPEcKBXBIC4ARhex4G4BsjmweU1soIFaGg/WtoFZRIZdEvIMhxkCCjXIVsATV6gFGACs4Rsw0EGgIIH3QJYJgHSARQZDrWAB+jawzgs+Q2UO49D7jnRSRGoEFRILcdmEMWGI0cm0JJ2QpYA1RDvcmzJEWhABhD/pqrL0S0CWuABKgnRki9lLseS7g2AlqwHWQSKH4oKLrILpRGhEQCw2LiRUIa4lwAAAABJRU5ErkJggg==") !important;
+    box-shadow:0 0.66875rem 2.3875rem rgba(58,196,125,0.03),0 1.1375rem 1.60625rem rgba(58,196,125,0.03),0 0.45rem 0.73125rem rgba(58,196,125,0.05),0 0.325rem 0.3875rem rgba(58,196,125,0.03)
+}
+.notification-success {
+    background-color:#3ac47d
+}
+
+.notification-message {
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+}

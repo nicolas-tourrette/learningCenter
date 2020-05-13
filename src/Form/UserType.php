@@ -108,6 +108,14 @@ class UserType extends AbstractType
                     )
                 )
             )
+            ->add('handicap',
+                CheckboxType::class,
+                array(
+                    'label' => "J'ai un handicap scolaire.",
+                    'required' => false,
+                    'attr' => ['class' => "custom-control-input"]
+                )
+            )
             ->add('submit',
                 SubmitType::class,
                 array(

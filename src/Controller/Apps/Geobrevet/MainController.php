@@ -15,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 use App\Entity\Test;
+use App\Entity\Notification;
 
 use App\Service\JsonParser as Json;
 
@@ -161,7 +162,14 @@ class MainController extends AbstractController {
                 $test->setScore($score);
                 $test->setTest($testId);
 
+                $notification = new Notification();
+                $notification->setRecipient($this->getUser());
+                $notification->setTitle('Score du test GéoBrevet '.strtoupper($testId).' enregistré');
+                $notification->setMessage('Votre résultat au test '.strtoupper($testId).' a été enregistré dans votre tableau de bord de GéoBrevet ! Votre score est de '.$score.' %.');
+                $notification->setClass("success");
+
                 $em->persist($test);
+                $em->persist($notification);
                 $em->flush();
 
                 $request->getSession()->getFlashBag()->add('success', 'Votre résultat au test '.strtoupper($testId).' a été enregistré ! Votre score est de '.$score.' %.');

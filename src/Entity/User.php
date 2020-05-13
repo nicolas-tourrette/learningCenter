@@ -132,10 +132,21 @@ class User implements UserInterface
      */
     private $tests;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Notification", mappedBy="recipient", orphanRemoval=true)
+     */
+    private $notifications;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $handicap;
+
     public function __construct(){
         $this->isActive = true;
         $this->updated = new \DateTime();
         $this->tests = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -459,6 +470,49 @@ class User implements UserInterface
                 $test->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notification[]
+     */
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function addNotification(Notification $notification): self
+    {
+        if (!$this->notifications->contains($notification)) {
+            $this->notifications[] = $notification;
+            $notification->setRecipient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotification(Notification $notification): self
+    {
+        if ($this->notifications->contains($notification)) {
+            $this->notifications->removeElement($notification);
+            // set the owning side to null (unless already changed)
+            if ($notification->getRecipient() === $this) {
+                $notification->setRecipient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getHandicap(): ?bool
+    {
+        return $this->handicap;
+    }
+
+    public function setHandicap(bool $handicap): self
+    {
+        $this->handicap = $handicap;
 
         return $this;
     }

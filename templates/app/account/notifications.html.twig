@@ -6,16 +6,21 @@
 Informations | {{ parent() }}
 {% endblock %}
 
+{% block css %}
+{{ parent() }}
+<link href="{{ asset('assets/css/notification.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block pageTitle %}
 <div class="page-title-heading">
     <div class="page-title-icon">
-        <i class="pe-7s-info icon-gradient bg-night-sky">
+        <i class="pe-7s-bell icon-gradient bg-night-sky">
         </i>
     </div>
     <div class="page-title">
-        Informations
+        Notifications
         <div class="page-title-subheading">
-            Voici les différentes informations que l'équipe de LearnApp souhaite porter à votre connaissance. Ces informations sont celles des 30 derniers jours. Elles disparaissent automatiquement après cette durée. Pour toute question, le Support <a href="{{ path('support') }}#contactHelpTab">reste à votre écoute</a>.
+            Blabla
         </div>
     </div>
 </div>
@@ -32,21 +37,18 @@ Informations | {{ parent() }}
                 </div>
             </div>
             <div class="card-body">
-                {% if informations is not iterable %}
-                <p>{{ informations }}</p>
+                {% if notifications is not iterable %}
+                <p>{{ notifications }}</p>
                 {% else %}
                 <ul class="list-group">
-                {% for info in informations %}
-                    <li class="list-group-item">
-                        <h5 class="list-group-item-heading text-primary font-weight-bold">
-                            {{ info.title }}
-                        </h5>
-                        <p class="list-group-item-text font-weight-bold">
-                            Publié le {{ info.date|date("d/m/Y") }} par {{ info.author }}
-                        </p>
-                        <p class="list-group-item-text">
-                            {{ info.content|raw|nl2br }}
-                        </p>
+                {% for notification in notifications %}
+                    <li class="list-group-item-notification">
+                        <div id="notification-container">
+                            <div class="notification notification-{{ notification.class }}{% if notification.status %} notification-read{% endif %}">
+                                <div class="notification-title">{{ notification.title }}</div>
+                                <div class="notification-message">{{ notification.message|raw|nl2br }}</div>
+                            </div>
+                        </div>
                     </li>
                 {% endfor %}
                 </ul>

@@ -1,8 +1,13 @@
 let runningTime = true;
 
-function startTimer(duration, display) {
+function startTimer(duration, display, tiersTemps) {
     runningTime = true;
-    duration = duration * 60;
+    if (tiersTemps) {
+        duration = duration * 60 * 1.334;
+    }
+    else {
+        duration = duration * 60;
+    }
 
     let timer = duration, minutes, seconds;
     let displayHalf = false;
@@ -45,12 +50,12 @@ function startTimer(duration, display) {
     }, 1000);
 }
 
-function cancelTimer(){
+function cancelTimer() {
     console.log("Removing timer...");
     runningTime = false;
     localStorage.setItem("timer", NaN);
     console.log(localStorage.getItem("timer"));
 }
 
-document.getElementsByTagName("form")[0].addEventListener("submit", function () {cancelTimer()}, false);
-document.getElementById("cancelQuizz").addEventListener("click", function () {cancelTimer()}, false);
+document.getElementsByTagName("form")[0].addEventListener("submit", function () { cancelTimer() }, false);
+document.getElementById("cancelQuizz").addEventListener("click", function () { cancelTimer() }, false);
