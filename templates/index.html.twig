@@ -289,6 +289,7 @@
                                             </span>
                                             Actions rapides
                                         </button>
+                                        {{ render(controller ("App\\Controller\\UserController::countUnreadNotifications")) }}
                                         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
                                             <ul class="nav flex-column">
                                                 <li class="nav-item">
@@ -351,6 +352,14 @@
                                 {% endfor %}
                                 {% for message in app.session.flashbag.get('danger') %}
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                {% endfor %}
+                                {% for message in app.session.flashbag.get('info') %}
+                                <div class="alert alert-info alert-dismissible fade show" role="alert">
                                     {{ message }}
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>

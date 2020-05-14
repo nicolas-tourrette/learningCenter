@@ -34,11 +34,11 @@
 
                         <div class="row pb-5 p-5">
                             <div class="col-md-12">
-                                <p class="font-weight-bold mb-4">Cher {{ user.name }},</p>
+                                <p class="font-weight-bold mb-4">Bonjour {{ user.name }},</p>
                                 <p class="mb-2">Votre compte LearnApp vient d'être créé avec succès. Vous pouvez désormais vous connecter directement sur <a href="{{ absolute_url(path('login', {'last_username': user.username})) }}">cette adresse</a> avec votre identifiant {{ user.username }} et votre mot de passe que vous venez de créer.</p>
-                                <p class="mb-2">Vous êtes inscrit comme étudiant dans l'établissement {{ user.school }}.{% if user.partnerSchool is null %} Si cet établissement est partenaire de LearnApp, nous vous invitons à saisir son code RNE dans les paramètres de votre compte.{% endif %}</p>
+                                <p class="mb-2">Vous êtes inscrit(e) comme étudiant(e) dans l'établissement {{ user.school }}.{% if user.partnerSchool is null %} Si cet établissement est partenaire de LearnApp, nous vous invitons à saisir son code RNE dans les paramètres de votre compte.{% endif %}</p>
                                 {% if user.partnerSchool is not null %}
-                                    <p class="mb-2">Vous avez indiqué être inscrit dans l'établissement partenaire suivant : {{ user.partnerSchool }}. Ainsi votre établissement aura accès à vos résultats et met à votre disposition des ressources pédagogiques dédiées.</p>
+                                    <p class="mb-2">Vous avez indiqué être inscrit(e) dans l'établissement partenaire suivant : {{ user.partnerSchool }}. Ainsi votre établissement aura accès à vos résultats et met à votre disposition des ressources pédagogiques dédiées.</p>
                                 {% endif %}
                                 <p class="mb-3">
                                 {% if "ROLE_USER-PLUS" in user.roles %}
@@ -46,18 +46,24 @@
                                 {% elseif "ROLE_USER-PREMIUM" in user.roles %}
                                     Vous avez choisi le compte <span class="text-warning">LearnApp Premium</span> contenant un nombre illimité d'applications d'apprentissage ainsi qu'un accès à des ressources premium. Vous recevrez la facturation de votre compte sur l'adresse indiquée : {{ user.email }}. Elle est à régler avant la date indiquée, faute de quoi le compte sera désactivé. Le paiement peut être effectué par virement bancaire mensuel ou par chèque (montant annuel uniquement).
                                 {% else %}
-                                    Vous avez choisi le compte LearnApp Classic. Vous bénéficiez dès maintenant de deux applications et d'un support par e-mail. Vous pouvez utiliser votre compte dès maintenant. Vous pouvez upgrader votre compte à tout moment en vous rendant dans les paramètres du compte.
+                                    Vous avez choisi le compte LearnApp Classic. Vous bénéficiez dès maintenant de deux applications et d'un support par e-mail. Vous pouvez utiliser votre compte dès maintenant. Vous pouvez mettre à niveau votre compte à tout moment en vous rendant dans les paramètres du compte.
                                 {% endif %}
                                 </p>
                                 <p class="mb-0">Nous vous souhaitons une bonne navigation.</p>
                             </div>
                         </div>
-
                         
-
                         <div class="d-flex flex-row-reverse bg-dark text-white p-4">
                             <div class="py-3 px-5 text-right">
                                 <div class="h3 font-weight-light">L'équipe<br><img src="{{ absolute_url(asset('assets/images/logo-white.png')) }}" height="50px"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row pt-5">
+                            <div class="col-md-12">
+                                <p class="text-center text-muted small">
+                                    Ce message a été envoyé automatiquement. Merci de ne pas y répondre.
+                                </p>
                             </div>
                         </div>
                     </div>

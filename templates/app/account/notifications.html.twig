@@ -20,7 +20,7 @@ Informations | {{ parent() }}
     <div class="page-title">
         Notifications
         <div class="page-title-subheading">
-            Blabla
+            Voici les notifications que LearnApp a pour vous. Vous êtes libre de les marquer comme lues ou de les supprimer une fois que vous les avez traitées.
         </div>
     </div>
 </div>
@@ -47,6 +47,7 @@ Informations | {{ parent() }}
                             <div class="notification notification-{{ notification.class }}{% if notification.status %} notification-read{% endif %}">
                                 <div class="notification-title">{{ notification.title }}</div>
                                 <div class="notification-message">{{ notification.message|raw|nl2br }}</div>
+                                <div class="pt-2">{% if not notification.status %}<a class="btn btn-sm btn-outline-light" href="{{ path('notificationsAction', {'action': 'read', 'id': notification.id}) }}"><i class="pe-7s-mail-open"></i></a>{% else %}<a class="btn btn-sm btn-outline-light" href="{{ path('notificationsAction', {'action': 'unread', 'id': notification.id}) }}"><i class="pe-7s-mail"></i></a>{% endif %} &nbsp; <a class="btn btn-sm btn-outline-light" href="{{ path('notificationsAction', {'action': 'trash', 'id': notification.id}) }}"><i class="pe-7s-trash"></i></a></div>
                             </div>
                         </div>
                     </li>

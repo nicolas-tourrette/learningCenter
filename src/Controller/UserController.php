@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -309,12 +310,25 @@ class UserController extends AbstractController {
         ));
     }
 
-    public function countNotifications(){
+    public function countNotifications(SessionInterface $session){
         $em = $this->getDoctrine()->getManager();
 
         $notifications = $em->getRepository("App:Notification")->findByRecipient($this->getUser());
 
         return new Response(count($notifications));
+    }
+
+    public function countUnreadNotifications(SessionInterface $session){
+        $em = $this->getDoctrine()->getManager();
+
+        $notifications = $em->getRepository("App:Notification")->findBy(array("recipient" => $this->getUser(), "status" => false));
+        
+        if(count($notifications) > 0){
+            return new Response('<span class="badge noti-badge badge-warning"></span>');
+        }
+        else{
+            return new Response();
+        }
     }
 
     /**
@@ -346,5 +360,39 @@ class UserController extends AbstractController {
             'nbPages' => $nbPages,
             'page' => $page
         ));
+    }
+
+    /**
+     * @Route("/compte/notifications/action/{action}/{id}", name="notificationsAction", requirements={"action" = "read|unread|trash", "id" = "\d+"})
+     */
+    public function notificationsAction(Request $request, $action, $id){
+        if(!in_array($action, array("read", "unread", "trash"))){
+            throw new \Exception("Action de notification inconnue.");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $notification = $em->getRepository("App:Notification")->find($id);
+
+        if ($notification == null) {
+			throw new NotFoundHttpException("Cette notification n'existe pas.");
+		}
+
+        if($action == "read"){
+            $notification->setStatus(true);
+            $em->persist($notification);
+            $request->getSession()->getFlashBag()->add('info', 'La notification a été marquée comme lue.');
+        }
+        elseif($action == "unread"){
+            $notification->setStatus(false);
+            $em->persist($notification);
+            $request->getSession()->getFlashBag()->add('info', 'La notification a été marquée comme non lue.');
+        }
+        elseif($action == "trash"){
+            $em->remove($notification);
+            $request->getSession()->getFlashBag()->add('info', 'La notification a été supprimée.');
+        }
+
+        $em->flush();
+        return $this->redirectToRoute('notifications');
     }
 }
