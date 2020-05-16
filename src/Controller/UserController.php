@@ -72,7 +72,7 @@ class UserController extends AbstractController {
 					$user->getPassword()
                 ));
 
-                if($user->getRoles() === array("ROLE_USER")){
+                if(in_array("ROLE_USER", $user->getRoles())){
                     $user->setPaiementStatus(true);
                     $user->setPaiementType("free");
                 }

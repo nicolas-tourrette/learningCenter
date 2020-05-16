@@ -248,6 +248,14 @@
                                         </a>
                                     </li>
                                 {% endif %}
+                                {% if is_granted('ROLE_PROFESSEUR') %}
+                                <li>
+                                    <a href="{{ path('profIndex') }}" id="teacher">
+                                        <i class="metismenu-icon pe-7s-portfolio"></i>
+                                        Tableau de bord professeur
+                                    </a>
+                                </li>
+                                {% endif %}
                                 <li>
                                     <a href="{{ path('support') }}" id="support">
                                         <i class="metismenu-icon pe-7s-help2"></i>
@@ -383,7 +391,7 @@
                                             <div class="widget-subheading"><a href="{{ path('register') }}" class="text-white">Créez votre compte</a> dès maintenant !</div>
                                         </div>
                                         <div class="widget-content-right">
-                                            <div class="widget-numbers text-white"><span>1</span></div>
+                                            <div class="widget-numbers text-white"><span>{{ nbUsers }}</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -393,10 +401,10 @@
                                     <div class="widget-content-wrapper text-white">
                                         <div class="widget-content-left">
                                             <div class="widget-heading">Applications d'apprentissage</div>
-                                            <div class="widget-subheading">Actualisé le 01/04/2020</div>
+                                            <div class="widget-subheading">Actualisé le {{ "now"|date("d/m/Y") }}</div>
                                         </div>
                                         <div class="widget-content-right">
-                                            <div class="widget-numbers text-white"><span>1</span></div>
+                                            <div class="widget-numbers text-white"><span>{{ nbApps }}</span></div>
                                         </div>
                                     </div>
                                 </div>

@@ -104,7 +104,7 @@ class UserType extends AbstractType
                     'choices' => array(
                         'LearnApp Classic (gratuit)' => "ROLE_USER",
                         'LearnApp Classic+ (5 €/mois)' => "ROLE_USER-PLUS",
-                        'LearnApp Premium (10 €/mois)' => "ROLE_USER-PREMIUM",
+                        'LearnApp Premium (10 €/mois)' => "ROLE_USER-PREMIUM"
                     )
                 )
             )

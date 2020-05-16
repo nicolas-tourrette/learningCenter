@@ -14,7 +14,9 @@ security:
     role_hierarchy:
         ROLE_USER-PLUS: ROLE_USER
         ROLE_USER-PREMIUM: ROLE_USER-PLUS
-        ROLE_ADMIN: ROLE_USER-PREMIUM
+        ROLE_ADMIN: [ROLE_USER-PREMIUM, ROLE_GESTIONNAIRE-ETAB]
+        ROLE_PROFESSEUR: ROLE_USER
+        ROLE_GESTIONNAIRE-ETAB: ROLE_PROFESSEUR
 
     hide_user_not_found: false
 
@@ -49,5 +51,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/me, roles: ROLE_USER }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/teacher, roles: ROLE_PROFESSEUR }
+        - { path: ^/school, roles: ROLE_GESTIONNAIRE-ETAB }
+        - { path: ^/admin, roles: ROLE_ADMIN }

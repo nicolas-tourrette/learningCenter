@@ -23,9 +23,14 @@ class MainController extends AbstractController {
     * @Route("/", name="index")
     */
     public function index(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $nbUsers = count($em->getRepository("App:User")->findAll());
+        $nbApps = count($em->getRepository("App:App")->findAll());
         
         return $this->render('index.html.twig', array(
-                'lastVersion' => $this->getLastVersion()
+                'lastVersion' => $this->getLastVersion(),
+                'nbUsers' => $nbUsers,
+                'nbApps' => $nbApps
         ));
     }
 
