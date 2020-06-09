@@ -1,0 +1,48 @@
+{# templates/app/teacher/class.html.twig #}
+
+{% extends "index.html.twig" %}
+
+{% block title %}
+Classe {{ class.name }} | {{ parent() }}
+{% endblock %}
+
+{% block pageTitle %}
+<div class="page-title-heading">
+    <div class="page-title-icon">
+        <i class="pe-7s-portfolio icon-gradient bg-night-sky">
+        </i>
+    </div>
+    <div class="page-title">
+        Classe {{ class.name }}
+        <div class="page-title-subheading">
+            Blablabla
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block pageContent %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="main-card mb-3 card">
+            <div class="card-header">
+                <i class="header-icon pe-7s-users"> </i>
+                Étudiants
+                {# <div class="btn-actions-pane-right actions-icon-btn">
+                    <a class="btn-icon btn-icon-only btn btn-link" href="{{ path('update') }}"><i class="pe-7s-config btn-icon-wrapper"></i></a>
+                </div> #}
+            </div>
+            <div class="card-body">
+                {% for student in students %}
+                    {{ student.name }} :
+                    {% for app in student.apps %}
+                        {{ app }}
+                    {% endfor %}<br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

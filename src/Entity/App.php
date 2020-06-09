@@ -26,7 +26,8 @@ class App
     private $appVersion;
 
     /**
-     * @ORM\Column(type="string", length=8, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\School")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $appPartnerSchool;
 
@@ -64,12 +65,12 @@ class App
         return $this;
     }
 
-    public function getAppPartnerSchool(): ?string
+    public function getAppPartnerSchool(): ?School
     {
         return $this->appPartnerSchool;
     }
 
-    public function setAppPartnerSchool(?string $appPartnerSchool): self
+    public function setAppPartnerSchool(?School $appPartnerSchool): self
     {
         $this->appPartnerSchool = $appPartnerSchool;
 

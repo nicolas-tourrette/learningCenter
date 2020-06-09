@@ -37,7 +37,7 @@ else if (maPage != "") {
 if (maPage == "version" || CheminRepertoire[pathLength - 2] == "compte"){
     idForItem = CheminRepertoire[pathLength - 2];
 }
-else if (CheminRepertoire[4] == "compte"){
+else if ((CheminRepertoire[4] == "compte" && maPage != "compte") || CheminRepertoire[4] == "class") {
     idForItem = CheminRepertoire[pathLength - 3];
 }
 

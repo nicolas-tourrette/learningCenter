@@ -40,7 +40,7 @@ class AppRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.appPartnerSchool IS NULL')
-            ->orWhere('a.appPartnerSchool LIKE :code')
+            ->orWhere('a.appPartnerSchool = :code')
             ->setParameter('code', $partnerSchool)
             ->getQuery()
             ->getResult()

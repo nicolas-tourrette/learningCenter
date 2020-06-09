@@ -70,7 +70,8 @@ class User implements UserInterface
     private $apps = [];
 
     /**
-     * @ORM\Column(type="string", length=8, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\School")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $partnerSchool;
 
@@ -142,11 +143,22 @@ class User implements UserInterface
      */
     private $handicap;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\SchoolClass", mappedBy="teacher")
+     */
+    private $schoolClasses;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\SchoolClass", inversedBy="students")
+     */
+    private $schoolClass;
+
     public function __construct(){
         $this->isActive = true;
         $this->updated = new \DateTime();
         $this->tests = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->schoolClasses = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -271,12 +283,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPartnerSchool(): ?string
+    public function getPartnerSchool(): ?School
     {
         return $this->partnerSchool;
     }
 
-    public function setPartnerSchool(?string $partnerSchool): self
+    public function setPartnerSchool(?School $partnerSchool): self
     {
         $this->partnerSchool = $partnerSchool;
 
@@ -513,6 +525,49 @@ class User implements UserInterface
     public function setHandicap(bool $handicap): self
     {
         $this->handicap = $handicap;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SchoolClass[]
+     */
+    public function getSchoolClasses(): Collection
+    {
+        return $this->schoolClasses;
+    }
+
+    public function addSchoolClass(SchoolClass $schoolClass): self
+    {
+        if (!$this->schoolClasses->contains($schoolClass)) {
+            $this->schoolClasses[] = $schoolClass;
+            $schoolClass->setTeacher($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSchoolClass(SchoolClass $schoolClass): self
+    {
+        if ($this->schoolClasses->contains($schoolClass)) {
+            $this->schoolClasses->removeElement($schoolClass);
+            // set the owning side to null (unless already changed)
+            if ($schoolClass->getTeacher() === $this) {
+                $schoolClass->setTeacher(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSchoolClass(): ?SchoolClass
+    {
+        return $this->schoolClass;
+    }
+
+    public function setSchoolClass(?SchoolClass $schoolClass): self
+    {
+        $this->schoolClass = $schoolClass;
 
         return $this;
     }

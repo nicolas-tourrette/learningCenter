@@ -67,6 +67,10 @@ class UserController extends AbstractController {
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
 			if($form->isSubmitted() && $form->isValid()) {
+                if ($this->get('security.authorization_checker')->isGranted('ROLE_PROFESSEUR')) {
+                    $user->setRoles(array_merge(array("ROLE_PROFESSEUR"), $user->getRoles()));
+                }
+
                 $user->setPassword($passwordEncoder->encodePassword(
 					$user,
 					$user->getPassword()
@@ -140,7 +144,7 @@ class UserController extends AbstractController {
         
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
-        $subscribaleApps = $em->getRepository("App:App")->findMySubscribaleApps($user->getPartnerSchool());
+        $subscribaleApps = $em->getRepository("App:App")->findMySubscribaleApps($user->getPartnerSchool()->getId());
         $apps = $this->getUser()->getApps();
 
         $counter = count($apps) - count(preg_grep("/partner-*/", $apps));
@@ -192,7 +196,7 @@ class UserController extends AbstractController {
 			if($form->isSubmitted() && $form->isValid()) {
                 $subscribtion = $form->getData()["apps"];
                 $appsToAdd = array();
-                $partnerApps = $em->getRepository("App:App")->findByAppPartnerSchool($user->getPartnerSchool());
+                $partnerApps = $em->getRepository("App:App")->findByAppPartnerSchool($user->getPartnerSchool()->getId());
 
                 foreach ($partnerApps as $key => $value) {
                     if(in_array($value->getAppCode(), $subscribtion)){

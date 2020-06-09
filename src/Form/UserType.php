@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\School;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
@@ -86,11 +89,13 @@ class UserType extends AbstractType
                 )
             )
             ->add('partnerSchool',
-                TextType::class,
+                EntityType::class,
                 array(
                     'label' => "Code établissement partenaire (RNE)",
                     'required' => false,
-                    'attr' => ["placeholder" => "0211234C", 'class' => "form-control", 'maxlength' => "8"]
+                    'attr' => ["placeholder" => "0211234C", 'class' => "form-control", 'maxlength' => "8"],
+                    'class' => School::class,
+                    'placeholder' => "Choissez votre établissement ou ne changez rien"
                 )
             )
             ->add('roles',

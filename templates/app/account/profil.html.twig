@@ -53,8 +53,13 @@ Mon compte | {{ parent() }}
                         {% endif %}
                         {% if app.user.partnerSchool is not null %}
                         <p class="text-muted">
-                            <span class="card-title">Code RNE de l'établissement partenaire d'inscription</span><br>{{ app.user.partnerSchool }}
+                            <span class="card-title">Code RNE de l'établissement partenaire d'inscription</span><br>{{ app.user.partnerSchool.id }} - {{ app.user.partnerSchool.name }}
                         </p>
+                        {% if app.user.schoolClass is not null %}
+                        <p class="text-muted">
+                            <span class="card-title">Classe d'appartenance</span><br>{{ app.user.schoolClass.name }}
+                        </p>
+                        {% endif %}
                         {% endif %}
                         <p>
                             <span class="card-title">Abonnement</span>
@@ -62,15 +67,16 @@ Mon compte | {{ parent() }}
                                 <ul class="list-group"><li class="list-group-item-info list-group-item">LearnApp Classic+</li></ul> 
                             {% elseif is_granted("ROLE_USER-PREMIUM") %}
                                 <ul class="list-group"><li class="list-group-item-warning list-group-item">LearnApp Premium{% if app.user.paiementStatus == 0 %} (essai){% endif %}</li></ul>
-                            {% elseif is_granted("ROLE_PROFESSEUR") %}
-                                <ul class="list-group">
-                                    <li class="list-group-item list-group-item-alt">Licence établissement</li>
-                                </ul>
                             {% else %}
-                            <ul class="list-group">
-                                <li class="list-group-item-secondary list-group-item">LearnApp Classic{% if app.user.paiementStatus == 0 %}
-                                    (essai){% endif %}</li>
-                            </ul>
+                                <ul class="list-group">
+                                    <li class="list-group-item-secondary list-group-item">LearnApp Classic{% if app.user.paiementStatus == 0 %}
+                                        (essai){% endif %}</li>
+                                </ul>
+                            {% endif %}
+                            {% if is_granted("ROLE_PROFESSEUR") %}
+                                <ul class="list-group mt-2">
+                                    <li class="list-group-item list-group-item-alt">Licence établissement partenaire LearnApp</li>
+                                </ul>
                             {% endif %}
                         </p>
                         <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
@@ -88,7 +94,6 @@ Mon compte | {{ parent() }}
             </div> #}
         </div>
     </div>
-    {% if not is_granted('ROLE_PROFESSEUR') %}
     <div class="col-lg-6">
         <div class="main-card mb-3 card">
             <div class="card-header">
@@ -179,7 +184,6 @@ Mon compte | {{ parent() }}
             </div> #}
         </div>
     </div>
-    {% endif %}
 </div>
 
 {% endblock %}
